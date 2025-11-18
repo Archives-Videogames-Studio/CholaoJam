@@ -15,7 +15,13 @@ MonoBehaviour:
   clientName: Luisa
   portrait: {fileID: -5731794010346577109, guid: 3349f319a43ad5242bc0f78c81ac273b, type: 3}
   shortDescription: 
-  oigaLines: []
+  oigaLines:
+  - "Uf\u2026  todo el d\xEDa entre clases, entregas y maquetas\u2026 tengo la cabeza
+    apunto de explotar, pero tampoco quiero algo que me deje pesada."
+  - "Sub\xED hasta ac\xE1 a ver si me despeja la mente un poco, que me despierte
+    pero suave."
+  - Si puede ser algo diferente, con un poquito de contraste, sin que sea exagerado
+    en lo dulce, mejor.
   idealFrio: 1
   idealDulzor: 1
   idealAcidez: 2

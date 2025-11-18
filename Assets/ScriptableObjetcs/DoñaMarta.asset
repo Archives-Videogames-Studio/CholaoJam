@@ -15,7 +15,11 @@ MonoBehaviour:
   clientName: "Do\xF1a Marta"
   portrait: {fileID: 21300000, guid: 95c3d3cb95dad204fa1595b3fbd2ceb2, type: 3}
   shortDescription: 
-  oigaLines: []
+  oigaLines:
+  - "Ay mijo, qu\xE9 calor tan bravo el de hoy\u2026 menos mal aqu\xED arriba corre
+    m\xE1s brisita."
+  - Llevo desde temprano en el centro sin parar, necesito algo que me refresque.
+  - "Pero eso s\xED, que sea suavecito, que no me deje pesada para bajar."
   idealFrio: 2
   idealDulzor: 1
   idealAcidez: 1

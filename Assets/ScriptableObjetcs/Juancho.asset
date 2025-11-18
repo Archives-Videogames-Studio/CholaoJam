@@ -15,7 +15,11 @@ MonoBehaviour:
   clientName: Juancho
   portrait: {fileID: 21300000, guid: 4d9e5e6534942574683232b124864adb, type: 3}
   shortDescription: 
-  oigaLines: []
+  oigaLines:
+  - "Menor, que partido tan chimba, todav\xEDa estoy con la garganta vuelta nada."
+  - "Subimos hasta ac\xE1 a seguir celebrando, necesito az\xFAcar para que esto me
+    llene."
+  - "H\xE1game algo bien dulce y cremoso, que hoy la alegr\xEDa est\xE1 arriba."
   idealFrio: 0
   idealDulzor: 2
   idealAcidez: 0
