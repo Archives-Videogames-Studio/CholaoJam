@@ -1414,6 +1414,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ClientSequenceManager
   clients:
   - {fileID: 11400000, guid: 07ecc8d4ab327224885c9342c520bb4d, type: 2}
+  - {fileID: 11400000, guid: 116de22210d8ec844bc8321db065bd3f, type: 2}
   - {fileID: 11400000, guid: fd3afd9fa5251444b885f0cb316dbd39, type: 2}
   clientPrefab: {fileID: 8128299471768110278, guid: da3f2f8979ff8994bb3ab007cd335757, type: 3}
   waypoints:
