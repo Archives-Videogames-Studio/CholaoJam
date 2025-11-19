@@ -5603,6 +5603,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2036806156}
   - component: {fileID: 2036806157}
+  - component: {fileID: 2036806158}
   m_Layer: 0
   m_Name: Acabados2-26
   m_TagString: Untagged
@@ -5683,6 +5684,20 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &2036806158
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2036806155}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a4eed9e7000864ed5af01f8be7c85332, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: '::'
+  rueda: {fileID: 2036806155}
+  girar: 0
 --- !u!1 &2068183213
 GameObject:
   m_ObjectHideFlags: 0
@@ -5779,6 +5794,18 @@ MonoBehaviour:
       - m_Target: {fileID: 2068183215}
         m_TargetAssemblyTypeName: Ice, Assembly-CSharp
         m_MethodName: OnRueda
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 2036806158}
+        m_TargetAssemblyTypeName: Guiro, Assembly-CSharp
+        m_MethodName: OnGiro
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
