@@ -10,13 +10,16 @@ public class ClientSequenceManager : MonoBehaviour
     public Transform[] waypoints;
 
     [Header("UI")]
-    public DialogueController dialogueController;  
+    public DialogueController dialogueController;   
+    public GameObject buttonsRoot;                 
 
     int _currentIndex = -1;
     ClientMover _currentClient;
 
     void Start()
     {
+        if (buttonsRoot != null) buttonsRoot.SetActive(false);
+
         SpawnNextClient();
     }
 
@@ -28,6 +31,7 @@ public class ClientSequenceManager : MonoBehaviour
         {
             Debug.Log("No hay más clientes en la secuencia (MVP completo).");
             dialogueController?.Hide();
+            if (buttonsRoot != null) buttonsRoot.SetActive(false);
             return;
         }
 
@@ -49,8 +53,18 @@ public class ClientSequenceManager : MonoBehaviour
 
         if (dialogueController != null)
         {
+            if (buttonsRoot != null) buttonsRoot.SetActive(false);
+
+            dialogueController.OnDialogueFinished += HandleDialogueFinished;
             dialogueController.PlayDialogue(mover.profile);
         }
+    }
+
+    void HandleDialogueFinished()
+    {
+        dialogueController.OnDialogueFinished -= HandleDialogueFinished;
+
+        if (buttonsRoot != null) buttonsRoot.SetActive(true);
     }
 
     void HandleClientFinished(ClientMover mover)
@@ -62,7 +76,6 @@ public class ClientSequenceManager : MonoBehaviour
         SpawnNextClient();
     }
 
-
     public void OnPressOiga()
     {
         dialogueController?.ReplayLast();
@@ -72,7 +85,9 @@ public class ClientSequenceManager : MonoBehaviour
     {
         if (_currentClient == null) return;
 
-        dialogueController?.Hide();   
+        if (buttonsRoot != null) buttonsRoot.SetActive(false);
+
+        dialogueController?.Hide();     
         _currentClient.AllowLeave();
     }
 }

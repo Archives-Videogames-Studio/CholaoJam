@@ -1,5 +1,6 @@
 using UnityEngine;
 using TMPro;
+using System;
 using System.Collections;
 
 public class DialogueController : MonoBehaviour
@@ -9,12 +10,16 @@ public class DialogueController : MonoBehaviour
     public TextMeshProUGUI dialogueText;  
 
     [Header("Tiempos")]
-    public float firstDelay = 0.1f;       
-    public float lineDuration = 2.0f;     
-    public float endDelay = 0.5f;        
+    public float firstDelay = 0.1f;
+    public float lineDuration = 2.0f;
+    public float endDelay = 0.5f;
 
     ClientProfile _currentProfile;
     Coroutine _routine;
+
+    public bool IsRunning { get; private set; }
+
+    public event Action OnDialogueFinished;   
 
     void Start()
     {
@@ -28,6 +33,7 @@ public class DialogueController : MonoBehaviour
         if (_routine != null)
             StopCoroutine(_routine);
 
+        IsRunning = true;
         _routine = StartCoroutine(PlayRoutine());
     }
 
@@ -58,7 +64,10 @@ public class DialogueController : MonoBehaviour
         }
 
         yield return new WaitForSeconds(endDelay);
+
         Hide();
+
+        OnDialogueFinished?.Invoke();
     }
 
     public void ReplayLast()
@@ -76,6 +85,8 @@ public class DialogueController : MonoBehaviour
             StopCoroutine(_routine);
             _routine = null;
         }
+
+        IsRunning = false;
 
         if (panelRoot != null)
             panelRoot.SetActive(false);

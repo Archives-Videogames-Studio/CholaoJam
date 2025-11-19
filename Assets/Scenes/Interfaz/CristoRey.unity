@@ -2020,6 +2020,7 @@ MonoBehaviour:
   - {fileID: 995070670}
   - {fileID: 1348098843}
   dialogueController: {fileID: 655297428}
+  buttonsRoot: {fileID: 1776461054}
 --- !u!1001 &3360530202810785259
 PrefabInstance:
   m_ObjectHideFlags: 0
