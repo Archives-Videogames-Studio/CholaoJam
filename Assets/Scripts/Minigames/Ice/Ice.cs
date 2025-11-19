@@ -6,17 +6,19 @@ public class Ice : MonoBehaviour
     public ParticlesMaxScriptUpdate ps;
 
     private bool restando = false;
+    private bool suamndo = false;
 
     public void OnRueda(InputAction.CallbackContext context)
     {
         if (context.performed)   
         {
-            ps.maxParticle = 100;
+            suamndo = true;
             restando = false;    
         }
         else if (context.canceled)  
         {
-            restando = true;     
+            restando = true;   
+            suamndo = false;  
         }
     }
 
@@ -31,6 +33,17 @@ public class Ice : MonoBehaviour
             else
             {
                 restando = false;        
+            }
+        }
+        if (suamndo)
+        {
+            if(ps.maxParticle < 100)
+            {
+                ps.maxParticle += 1;
+            }
+            else
+            {
+                suamndo = false;
             }
         }
     }

@@ -205,6 +205,7 @@ GameObject:
   - component: {fileID: 102737698}
   - component: {fileID: 102737697}
   - component: {fileID: 102737696}
+  - component: {fileID: 102737699}
   m_Layer: 0
   m_Name: Triangle
   m_TagString: Untagged
@@ -5089,6 +5090,20 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &102737699
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 102737694}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fd35629583e9f40559ef7e600136351d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ParticlesMaxScriptUpdate
+  maxParticle: 0
+  ps: {fileID: 102737697}
 --- !u!1 &282362944
 GameObject:
   m_ObjectHideFlags: 0
@@ -5713,6 +5728,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 75b5e5cce668d4cbca2fdf5e808f4438, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
+  ps: {fileID: 102737699}
 --- !u!114 &2068183216
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5759,7 +5775,19 @@ MonoBehaviour:
     m_ActionId: 27c5f898-bc57-4ee1-8800-db469aca5fe3
     m_ActionName: 'Player/Crouch[/Keyboard/c]'
   - m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 2068183215}
+        m_TargetAssemblyTypeName: Ice, Assembly-CSharp
+        m_MethodName: OnRueda
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_ActionId: f1ba0d36-48eb-4cd5-b651-1c94a6531f70
     m_ActionName: 'Player/Jump[/Keyboard/space]'
   - m_PersistentCalls:
