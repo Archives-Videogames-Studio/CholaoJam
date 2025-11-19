@@ -26,7 +26,6 @@ public class ChangeMachineButton : MonoBehaviour
 
         Active();
 
-        Debug.LogWarning(prevIndex);
     }
 
     public void DownMachine()
@@ -41,7 +40,6 @@ public class ChangeMachineButton : MonoBehaviour
 
         Active();
 
-        Debug.LogWarning(prevIndex);
     }
 
     void Active()

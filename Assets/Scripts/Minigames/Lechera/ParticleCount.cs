@@ -8,7 +8,8 @@ public class ParticleCount : MonoBehaviour
     public ParticlesMaxScript ps;
     private ParticleSystem m_ps;
     public int maxParticle;
-    public int particleInside = 0;
+    [SerializeField]
+    private int particleInside;
     private float m_porcentaje;
 
     private List<ParticleSystem.Particle> enter = new List<ParticleSystem.Particle>();
@@ -22,8 +23,9 @@ public class ParticleCount : MonoBehaviour
 
     void Update()
     {
-        StartCoroutine(porcentaje());
         m_porcentaje = particleInside / maxParticle * 100;
+        StartCoroutine(porcentaje());
+        
     }
 
     IEnumerator porcentaje()
@@ -35,7 +37,7 @@ public class ParticleCount : MonoBehaviour
 
     void OnParticleTrigger()
     {
-        int entered = m_ps.GetTriggerParticles(ParticleSystemTriggerEventType.Enter, enter);
+        int entered = m_ps.GetTriggerParticles(ParticleSystemTriggerEventType.Inside, enter);
         particleInside += entered;
     }
 
