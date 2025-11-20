@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 3389e6df1b800c24a88c35e4a6078e72
+guid: 6866fad8321a11c41be77513e1aa3924
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -2107789410594508548
-    second: "cristo_rey_ma\xF1ana 1_0"
+      213: -5855563796508090286
+    second: hielo_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -100,13 +100,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: "cristo_rey_ma\xF1ana 1_0"
+      name: hielo_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 1920
-        height: 1080
+        width: 321
+        height: 89
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -115,8 +115,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: cf03f28d2b0afb2e0800000000000000
-      internalID: -2107789410594508548
+      spriteID: 2506f7d40cbdcbea0800000000000000
+      internalID: -5855563796508090286
       vertices: []
       indices: 
       edges: []
@@ -135,7 +135,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      "cristo_rey_ma\xF1ana 1_0": -2107789410594508548
+      hielo_0: -5855563796508090286
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
