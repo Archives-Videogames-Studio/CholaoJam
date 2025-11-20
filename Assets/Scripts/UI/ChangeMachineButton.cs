@@ -5,7 +5,7 @@ using UnityEngine;
 public class ChangeMachineButton : MonoBehaviour
 {
 
-    int index = 0;
+    public int index = 0;
     int prevIndex;
     public GameObject[] machines;
 

@@ -11,6 +11,15 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Interfaz/CristoRey.unity
     guid: 11a9d3682aff3704cb10887a232f1e32
+  - enabled: 1
+    path: Assets/Scenes/Minigames/Hielo.unity
+    guid: 3798a6223e1323f4ebed96f07e9463fc
+  - enabled: 1
+    path: Assets/Scenes/Minigames/Fruta.unity
+    guid: 17ccb924622bc154d963187cc708c23b
+  - enabled: 1
+    path: Assets/Scenes/Minigames/Sirope.unity
+    guid: 56eb14164b2fc984496c1ede586f33da
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
   m_UseUCBPForAssetBundles: 0
