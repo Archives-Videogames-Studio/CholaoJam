@@ -498,12 +498,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f04bef61fd79caf47b52cdd792cbe416, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LecheraMover
-  waypoints:
-  - {fileID: 1342838658}
-  - {fileID: 1494472446}
-  - {fileID: 1663851806}
+  leftLimit: {fileID: 1663851806}
+  rightLimit: {fileID: 1342838658}
   speed: 2
-  canMove: 0
+  minEdgeFactor: 0.5
+  maxEdgeFactor: 1
 --- !u!1 &486658413
 GameObject:
   m_ObjectHideFlags: 0
@@ -956,17 +955,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8e9160f12f956d24db7b1f69664c7c0e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LecheraMiniGameController
-  particlesMax: {fileID: 0}
-  particleCount: {fileID: 0}
-  lecheraMover: {fileID: 0}
-  cupMover: {fileID: 0}
-  lowAmount: 200
-  mediumAmount: 350
-  highAmount: 500
+  particlesMax: {fileID: 1786981467}
+  particleCount: {fileID: 1786981468}
+  lecheraMover: {fileID: 422929380}
+  cupMover: {fileID: 985610297}
+  lowAmount: 500
+  mediumAmount: 750
+  highAmount: 1000
   streamDuration: 2
   extraEndDelay: 0.5
   selectionPanel: {fileID: 2095915849}
   goodThreshold: 0.5
+  lastRoundTotal: 0
+  lastCollected: 0
+  lastPercentage: 0
+  roundRunning: 0
+  roundFinished: 0
 --- !u!1 &879542752
 GameObject:
   m_ObjectHideFlags: 0
@@ -1359,7 +1363,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: -0.016798973, y: 0.43157083}
+  m_Offset: {x: -0.023154318, y: 1.3349833}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -1369,7 +1373,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 17.946806, y: 1.9416445}
+  m_Size: {x: 1.9529084, y: 0.13481951}
   m_EdgeRadius: 0
 --- !u!114 &985610297
 MonoBehaviour:
@@ -2048,7 +2052,7 @@ ParticleSystem:
     startLifetime:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 3.21
+      scalar: 2
       minScalar: 5
       maxCurve:
         serializedVersion: 2
@@ -2536,7 +2540,7 @@ ParticleSystem:
         m_RotationOrder: 4
     randomizeRotationDirection: 0
     gravitySource: 1
-    maxNumParticles: 0
+    maxNumParticles: 2000
     customEmitterVelocity: {x: 0, y: 0, z: 0}
     size3D: 0
     rotation3D: 0
@@ -2802,7 +2806,7 @@ ParticleSystem:
     rateOverTime:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 115.7
+      scalar: 0
       minScalar: 10
       maxCurve:
         serializedVersion: 2
@@ -6703,6 +6707,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ParticlesMaxScript
   ps: {fileID: 1786981466}
   safetyMaxParticles: 2000
+  minSegmentParticles: 20
+  maxSegmentParticles: 80
+  minPauseDuration: 0.2
+  maxPauseDuration: 0.7
 --- !u!114 &1786981468
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6716,9 +6724,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ParticleCount
   source: {fileID: 1786981467}
-  roundTotalParticles: 1
   particleInside: 0
-  m_porcentaje: 0
+  roundTotalParticles: 1
+  porcentaje: 0
   logInterval: 0.5
 --- !u!1 &1848900337
 GameObject:
