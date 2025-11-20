@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 51dcf6d36272b01489efbd61b9640530
+guid: 864ff9df526d8bd478989015cf3e30ea
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -6043665517941798860
-    second: cholain_0
+      213: -7957629817062186715
+    second: tablita_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -100,13 +100,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: cholain_0
+      name: tablita_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 543
-        height: 703
+        width: 848
+        height: 463
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -115,8 +115,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 4384dcd6b36902ca0800000000000000
-      internalID: -6043665517941798860
+      spriteID: 521a3fbb7d1d09190800000000000000
+      internalID: -7957629817062186715
       vertices: []
       indices: 
       edges: []
@@ -135,7 +135,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      cholain_0: -6043665517941798860
+      tablita_0: -7957629817062186715
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
