@@ -10,34 +10,40 @@ public class Ice : MonoBehaviour
 
     public void OnRueda(InputAction.CallbackContext context)
     {
-        if (context.performed)   
+        if (!IceMiniGameController.MachineInputEnabled)
+            return;
+
+        if (context.performed)
         {
             suamndo = true;
-            restando = false;    
+            restando = false;
         }
-        else if (context.canceled)  
+        else if (context.canceled)
         {
-            restando = true;   
-            suamndo = false;  
+            restando = true;
+            suamndo = false;
         }
     }
 
     void Update()
     {
+        if (ps == null) return;
+
         if (restando)
         {
             if (ps.maxParticle > 0)
             {
-                ps.maxParticle -= 1;     
+                ps.maxParticle -= 1;
             }
             else
             {
-                restando = false;        
+                restando = false;
             }
         }
+
         if (suamndo)
         {
-            if(ps.maxParticle < 100)
+            if (ps.maxParticle < 100)
             {
                 ps.maxParticle += 1;
             }
@@ -46,5 +52,13 @@ public class Ice : MonoBehaviour
                 suamndo = false;
             }
         }
+    }
+    public void ForceStopEmission()
+    {
+        suamndo = false;
+        restando = false;
+
+        if (ps != null)
+            ps.maxParticle = 0;
     }
 }
