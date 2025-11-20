@@ -1,5 +1,5 @@
 using UnityEngine;
-using UnityEngine.InputSystem; // New Input System
+using UnityEngine.InputSystem; 
 
 public class FruitMiniGameController : MonoBehaviour
 {
@@ -17,31 +17,28 @@ public class FruitMiniGameController : MonoBehaviour
     public FruitCutBarMover barMover;
 
     [Header("UI Selección")]
-    public GameObject selectionPanel;   // Panel que tiene los botones
+    public GameObject selectionPanel;   
 
     [Header("Línea ideal de corte")]
     public Transform idealLine;
 
     [Header("Resultado (debug)")]
     [Range(0f, 1f)]
-    public float valorAccion;   // 0–1 según posición de corte
-    public int nivelFinal;      // 0, 1 o 2 (resultado del corte)
-    public int FRUTA;           // variable final a guardar
-    public NivelSeleccion seleccionInicial; // elección del jugador
-
+    public float valorAccion;   
+    public int nivelFinal;      
+    public int FRUTA;          
+    public NivelSeleccion seleccionInicial; 
     bool _hasCut = false;
-    bool _canCut = false;      // solo se puede cortar después de elegir nivel
+    bool _canCut = false;     
 
     void Start()
     {
-        // Panel visible, barra parada
         if (selectionPanel != null)
             selectionPanel.SetActive(true);
 
         if (barMover != null)
             barMover.enabled = false;
 
-        // Ocultar línea ideal al inicio
         if (idealLine != null)
             idealLine.gameObject.SetActive(false);
 
@@ -55,7 +52,6 @@ public class FruitMiniGameController : MonoBehaviour
         if (!_canCut || _hasCut)
             return;
 
-        // New Input System: leer tecla espacio
         if (Keyboard.current != null &&
             Keyboard.current.spaceKey.wasPressedThisFrame)
         {
@@ -64,9 +60,6 @@ public class FruitMiniGameController : MonoBehaviour
         }
     }
 
-    // =========================
-    //  BOTONES DE SELECCIÓN
-    // =========================
 
     public void OnSelectLow()
     {
@@ -87,31 +80,29 @@ public class FruitMiniGameController : MonoBehaviour
     {
         seleccionInicial = nivel;
 
-        // 1) Calcular posición ideal según selección
         if (idealLine != null && leftLimit != null && rightLimit != null)
         {
-            float t; // 0–1 entre izquierda y derecha
+            float t; 
 
             switch (nivel)
             {
                 case NivelSeleccion.Bajo:
-                    t = 0.25f;   // más hacia la izquierda
+                    t = 0.25f;   
                     break;
                 case NivelSeleccion.Medio:
-                    t = 0.5f;    // centro
+                    t = 0.5f;    
                     break;
                 case NivelSeleccion.Alto:
-                    t = 0.75f;   // más hacia la derecha
+                    t = 0.75f;   
                     break;
                 default:
                     t = 0.5f;
                     break;
             }
 
-            // Interpolamos entre los límites para hallar la posición X ideal
+           
             Vector3 pos = Vector3.Lerp(leftLimit.position, rightLimit.position, t);
 
-            // Alinear con la barra roja en Y/Z
             if (barraCorte != null)
             {
                 pos.y = barraCorte.position.y;
@@ -122,11 +113,9 @@ public class FruitMiniGameController : MonoBehaviour
             idealLine.gameObject.SetActive(true);
         }
 
-        // 2) Ocultar panel de botones
         if (selectionPanel != null)
             selectionPanel.SetActive(false);
 
-        // 3) Activar movimiento de barra
         if (barMover != null)
             barMover.enabled = true;
 
@@ -135,10 +124,6 @@ public class FruitMiniGameController : MonoBehaviour
         Debug.Log($"[FRUTA] Selección inicial: {seleccionInicial}");
     }
 
-
-    // =========================
-    //  CÁLCULO DEL CORTE
-    // =========================
 
     void ProcesarCorte()
     {
@@ -152,16 +137,12 @@ public class FruitMiniGameController : MonoBehaviour
         float maxX = rightLimit.position.x;
         float cutX = Mathf.Clamp(barraCorte.position.x, minX, maxX);
 
-        // Normalizar a rango 0–1
         valorAccion = Mathf.InverseLerp(minX, maxX, cutX);
 
-        // Mapear valorAccion (0–1) a nivel 0 / 1 / 2
         nivelFinal = MapValorToNivel(valorAccion);
 
-        // Asignar resultado:
         FRUTA = nivelFinal;
 
-        // Detener movimiento de la barra
         if (barMover != null)
             barMover.enabled = false;
 
@@ -170,9 +151,8 @@ public class FruitMiniGameController : MonoBehaviour
 
     int MapValorToNivel(float v)
     {
-        // Ajusta umbrales si quieres
-        if (v < 0.33f) return 0;   // poca fruta
-        if (v < 0.66f) return 1;   // fruta media
-        return 2;                  // mucha fruta
+        if (v < 0.33f) return 0;   
+        if (v < 0.66f) return 1;   
+        return 2;                  
     }
 }
