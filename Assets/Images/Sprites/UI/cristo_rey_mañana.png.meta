@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 249fa85e715688e4e9002ca41eb69cec
+guid: 3389e6df1b800c24a88c35e4a6078e72
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -1473581539948180356
-    second: "cristo_rey_ma\xF1ana_0"
+      213: -2107789410594508548
+    second: "cristo_rey_ma\xF1ana 1_0"
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -100,7 +100,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: "cristo_rey_ma\xF1ana_0"
+      name: "cristo_rey_ma\xF1ana 1_0"
       rect:
         serializedVersion: 2
         x: 0
@@ -115,8 +115,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: c7cc0d39569cc8be0800000000000000
-      internalID: -1473581539948180356
+      spriteID: cf03f28d2b0afb2e0800000000000000
+      internalID: -2107789410594508548
       vertices: []
       indices: 
       edges: []
@@ -135,7 +135,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      "cristo_rey_ma\xF1ana_0": -1473581539948180356
+      "cristo_rey_ma\xF1ana 1_0": -2107789410594508548
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
