@@ -39,7 +39,6 @@ public class ParticleCount : MonoBehaviour
         if (_logTimer >= logInterval)
         {
             _logTimer = 0f;
-            Debug.Log($"[ParticleCount] Recogido: {particleInside}/{roundTotalParticles} ({porcentaje:F1}%)");
         }
     }
 
