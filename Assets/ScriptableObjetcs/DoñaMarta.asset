@@ -14,15 +14,30 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ClientProfile
   clientName: "Do\xF1a Marta"
   portrait: {fileID: 21300000, guid: 95c3d3cb95dad204fa1595b3fbd2ceb2, type: 3}
-  shortDescription: 
+  shortDescription: "Vendedora cansada del centro que busca algo muy fr\xEDo, ligero
+    y con mucha fruta."
   oigaLines:
-  - "Ay mijo, qu\xE9 calor tan bravo el de hoy\u2026 menos mal aqu\xED arriba corre
-    m\xE1s brisita."
-  - Llevo desde temprano en el centro sin parar, necesito algo que me refresque.
-  - "Pero eso s\xED, que sea suavecito, que no me deje pesada para bajar."
+  - "Ay mijo, qu\xE9 calor tan bravo el de hoy\u2026 si no me da algo bien fr\xEDo
+    me derrito."
+  - "Eso s\xED, que no sea tan empalagoso, que despu\xE9s tengo que seguir caminando
+    cuesta abajo."
+  - "Si le puede poner harta frutica fresca, mejor, que eso s\xED me entra suavecito."
   idealFrio: 2
-  idealDulzor: 1
-  idealAcidez: 1
-  idealCremosidad: 0
+  idealDulzor: 0
   idealFruta: 2
+  reactionPerfectLines:
+  - "Ay mijo, esto s\xED es un respiro del cielo\u2026 justico como lo quer\xEDa."
+  - "\xA1Uy no! Me lo dej\xF3 en su punto, ni muy dulce ni muy fr\xEDo. Gracias,
+    mi amor."
+  - "As\xED s\xED dan ganas de bajar otra vez al centro, qu\xE9 delicia de cholao."
+  reactionOkLines:
+  - "Est\xE1 bien rico, mijo\u2026 la pr\xF3xima me lo hace un poquitico m\xE1s suave
+    y queda perfecto."
+  - "Me refresc\xF3 harto, aunque sent\xED un tris de dulce de m\xE1s."
+  - "No est\xE1 mal, pero yo s\xE9 que usted lo puede hacer a\xFAn m\xE1s al gusto
+    m\xEDo."
+  reactionBadLines:
+  - "Uy no, mijo\u2026 esto s\xED me va a caer pesad\xEDsimo para bajar esas escaleras."
+  - "Se le fue la mano, yo le dije que lo quer\xEDa suavecito."
+  - "La intenci\xF3n estuvo bonita, pero este no fue para m\xED, mi amor."
   moveSpeed: 2

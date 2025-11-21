@@ -19,7 +19,7 @@ EditorBuildSettings:
     guid: 17ccb924622bc154d963187cc708c23b
   - enabled: 1
     path: Assets/Scenes/Minigames/Sirope.unity
-    guid: 56eb14164b2fc984496c1ede586f33da
+    guid: b7c6da5a0c671624294041c6e2d3bfd0
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
   m_UseUCBPForAssetBundles: 0

@@ -6,20 +6,23 @@ using System.Collections;
 public class DialogueController : MonoBehaviour
 {
     [Header("UI")]
-    public GameObject panelRoot;          
-    public TextMeshProUGUI dialogueText;  
+    public GameObject panelRoot;
+    public TextMeshProUGUI dialogueText;
 
-    [Header("Tiempos")]
-    public float firstDelay = 0.1f;
+    [Header("Tiempos diálogo OIGA")]
+    public float firstDelay   = 0.1f;
     public float lineDuration = 2.0f;
-    public float endDelay = 0.5f;
+    public float endDelay     = 0.5f;
+
+    [Header("Tiempo reacción (Vea)")]
+    public float reactionDuration = 2.0f;
 
     ClientProfile _currentProfile;
     Coroutine _routine;
 
     public bool IsRunning { get; private set; }
 
-    public event Action OnDialogueFinished;   
+    public event Action OnDialogueFinished;
 
     void Start()
     {
@@ -73,10 +76,34 @@ public class DialogueController : MonoBehaviour
     public void ReplayLast()
     {
         if (_currentProfile != null)
-        {
             PlayDialogue(_currentProfile);
-        }
     }
+
+    public void PlayReaction(ClientProfile profile, string line)
+    {
+        _currentProfile = profile;
+
+        if (_routine != null)
+            StopCoroutine(_routine);
+
+        IsRunning = true;
+        _routine = StartCoroutine(ReactionRoutine(line));
+    }
+
+    IEnumerator ReactionRoutine(string line)
+    {
+        if (panelRoot != null)
+            panelRoot.SetActive(true);
+
+        if (dialogueText != null)
+            dialogueText.text = line;
+
+        yield return new WaitForSeconds(reactionDuration);
+
+        Hide();
+        OnDialogueFinished?.Invoke();
+    }
+
 
     public void Hide()
     {

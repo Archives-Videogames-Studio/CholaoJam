@@ -16,9 +16,12 @@ public class ClientProfile : ScriptableObject
     [Header("Cholado ideal (0=Bajo,1=Medio,2=Alto)")]
     [Range(0, 2)] public int idealFrio;
     [Range(0, 2)] public int idealDulzor;
-    [Range(0, 2)] public int idealAcidez;
-    [Range(0, 2)] public int idealCremosidad;
     [Range(0, 2)] public int idealFruta;
+
+    [Header("Reacción al cholado")]
+    [TextArea] public string[] reactionPerfectLines; 
+    [TextArea] public string[] reactionOkLines;
+    [TextArea] public string[] reactionBadLines;
 
     [Header("Parámetros de movimiento")]
     public float moveSpeed = 2f;

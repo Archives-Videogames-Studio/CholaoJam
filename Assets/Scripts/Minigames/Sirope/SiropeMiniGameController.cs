@@ -1,5 +1,7 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
+using TMPro;
 
 public class SiropeMiniGameController : MonoBehaviour
 {
@@ -29,13 +31,21 @@ public class SiropeMiniGameController : MonoBehaviour
     public Vector2 highRange = new Vector2(0.65f, 0.85f);
 
     [Header("Movimiento de la aguja")]
+    [Tooltip("Velocidad de oscilación de la aguja mientras se mantiene ESPACIO.")]
     public float oscSpeed = 4f;
 
-    [Header("Partículas de sirope")]
+    [Header("Partículas de sirope (decoración)")]
     public ParticleSystem syrupParticles;
+
+    [Header("Feedback")]
+    [Tooltip("Texto que muestra 'Chimba! / Melo! / Paila!'")]
+    public TextMeshProUGUI feedbackText;
+    [Tooltip("Tiempo que se muestra el feedback antes de volver a CristoRey.")]
+    public float feedbackDuration = 1.5f;
 
     [Header("Resultado")]
     [Range(0f, 1f)] public float valorAccion;
+    [Tooltip("Nivel de dulzor calculado (0=Bajo,1=Medio,2=Alto).")]
     public int DULZOR = 1;
 
     [Header("Debug")]
@@ -57,7 +67,15 @@ public class SiropeMiniGameController : MonoBehaviour
     void Start()
     {
         if (selectionPanel != null)
+        {
             selectionPanel.SetActive(true);
+            Debug.Log("[SIROPE] Start() -> SelectionPanel asignado y activado. " +
+                      $"activeSelf={selectionPanel.activeSelf}, activeInHierarchy={selectionPanel.activeInHierarchy}");
+        }
+        else
+        {
+            Debug.LogWarning("[SIROPE] Start() -> SelectionPanel NO asignado en el inspector.");
+        }
 
         canPlay    = false;
         hasStarted = false;
@@ -68,8 +86,11 @@ public class SiropeMiniGameController : MonoBehaviour
 
         if (syrupParticles != null)
         {
-            syrupParticles.Stop(false, ParticleSystemStopBehavior.StopEmitting);
+            syrupParticles.Stop(false, ParticleSystemStopBehavior.StopEmittingAndClear);
         }
+
+        if (feedbackText != null)
+            feedbackText.gameObject.SetActive(false);
     }
 
     void Update()
@@ -97,7 +118,7 @@ public class SiropeMiniGameController : MonoBehaviour
             if (kb.spaceKey.isPressed)
             {
                 _phase += oscSpeed * Time.deltaTime;
-                float t = Mathf.Sin(_phase) * 0.5f + 0.5f;
+                float t = Mathf.Sin(_phase) * 0.5f + 0.5f; 
                 _lastValue = t;
                 MoveNeedleTo(t);
             }
@@ -111,15 +132,30 @@ public class SiropeMiniGameController : MonoBehaviour
 
                 Debug.Log($"[SIROPE] Fin → valor={valorAccion:F2}, DULZOR={DULZOR}");
 
+                var state = CholadoGameState.Instance;
+                if (state != null)
+                {
+                    state.resultDulzor = DULZOR;
+                    state.hasDulzor    = true;
+
+                    Debug.Log($"[SIROPE] selectedDulzor={state.selectedDulzor}, " +
+                              $"resultDulzor={state.resultDulzor}, idealDulzor={state.idealDulzor}");
+                }
+
                 if (syrupParticles != null)
                 {
-                    Debug.Log("[SIROPE] Reproduciendo partículas de sirope…");
                     syrupParticles.Play();
                 }
 
+                int selected = (state != null) ? state.selectedDulzor : (int)currentLevel;
+                string fb = GetFeedback(selected, DULZOR);
+                ShowFeedback(fb);
+
+                StartCoroutine(FinishAfterDelay());
             }
         }
     }
+
 
     public void OnSelectLow()    => SetDifficulty(NivelSeleccion.Bajo,   lowRange);
     public void OnSelectMedium() => SetDifficulty(NivelSeleccion.Medio,  medRange);
@@ -143,7 +179,14 @@ public class SiropeMiniGameController : MonoBehaviour
         MoveNeedleTo(0f);
 
         Debug.Log($"[SIROPE] Dificultad {nivel}, zona = [{range.x:F2}, {range.y:F2}]");
+
+        var state = CholadoGameState.Instance;
+        if (state != null)
+        {
+            state.selectedDulzor = (int)nivel;
+        }
     }
+
 
     void MoveNeedleTo(float t)
     {
@@ -177,13 +220,68 @@ public class SiropeMiniGameController : MonoBehaviour
         center.z        = zoneGreen.localPosition.z;
 
         zoneGreen.localPosition = center;
-        zoneGreen.localScale    = _zoneOriginalScale;
+
+        zoneGreen.localScale = _zoneOriginalScale;
     }
 
     int MapValorToNivel(float v)
     {
-        if (v < 0.33f)      return 0;
-        else if (v < 0.66f) return 1;
-        else                return 2;
+        v = Mathf.Clamp01(v);
+        if (v < 0.33f)      return 0; 
+        else if (v < 0.66f) return 1; 
+        else                return 2; 
+    }
+
+    string GetFeedback(int selected, int result)
+    {
+        switch (selected)
+        {
+            case 0: 
+                if (result == 0) return "¡Chimba!";
+                if (result == 1) return "Melo!";
+                return "Paila!";
+
+            case 1: 
+                if (result == 1) return "¡Chimba!";
+                return "Melo!";
+
+            case 2:
+                if (result == 2) return "¡Chimba!";
+                if (result == 1) return "Melo!";
+                return "Paila!";
+        }
+        return "Melo!";
+    }
+
+    void ShowFeedback(string text)
+    {
+        if (feedbackText == null) return;
+
+        feedbackText.text = text;
+        feedbackText.gameObject.SetActive(true);
+    }
+
+
+    System.Collections.IEnumerator FinishAfterDelay()
+    {
+        yield return new WaitForSeconds(feedbackDuration);
+
+        var state = CholadoGameState.Instance;
+
+        System.Action midAction = () =>
+        {
+            if (state != null && state.cristoReyRoot != null)
+            {
+                state.cristoReyRoot.SetActive(true);
+            }
+
+            Scene thisScene = gameObject.scene;
+            SceneManager.UnloadSceneAsync(thisScene);
+        };
+
+        if (ScreenCurtain.Instance != null)
+            ScreenCurtain.Instance.RunTransition(midAction);
+        else
+            midAction();
     }
 }

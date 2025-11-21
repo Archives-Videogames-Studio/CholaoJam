@@ -14,17 +14,27 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ClientProfile
   clientName: Luisa
   portrait: {fileID: -5731794010346577109, guid: 3349f319a43ad5242bc0f78c81ac273b, type: 3}
-  shortDescription: 
+  shortDescription: Estudiante creativa, cargada de trabajos; busca algo equilibrado
+    pero con mucha fruta.
   oigaLines:
-  - "Uf\u2026  todo el d\xEDa entre clases, entregas y maquetas\u2026 tengo la cabeza
-    apunto de explotar, pero tampoco quiero algo que me deje pesada."
-  - "Sub\xED hasta ac\xE1 a ver si me despeja la mente un poco, que me despierte
-    pero suave."
-  - Si puede ser algo diferente, con un poquito de contraste, sin que sea exagerado
-    en lo dulce, mejor.
+  - "He estado todo el d\xEDa entre clases y maquetas\u2026 necesito algo que me
+    despeje, pero sin congelarme."
+  - No quiero que sea muy dulce, prefiero algo balanceado que no me deje pesada.
+  - "Si tiene combinaciones de fruta fresca y colores ch\xE9veres, mejor, eso siempre
+    me inspira."
   idealFrio: 1
   idealDulzor: 1
-  idealAcidez: 2
-  idealCremosidad: 1
   idealFruta: 2
+  reactionPerfectLines:
+  - "Wow\u2026 justo el equilibrio que necesitaba, me despej\xF3 la cabeza."
+  - "Se siente suave, fresco y con contraste\u2026 qued\xF3 hermoso, gracias."
+  - "Exactamente lo que quer\xEDa: me despierta, pero sin reventarme de dulce."
+  reactionOkLines:
+  - "Est\xE1 rico, aunque la pr\xF3xima lo har\xEDa un poquito m\xE1s suavecito."
+  - "Me ayuda a despejarme, pero el contraste qued\xF3 un pel\xEDn fuerte."
+  - "Casi perfecto, solo le bajar\xEDa un poquito a uno de los sabores."
+  reactionBadLines:
+  - "Uf\u2026 siento que me revuelve m\xE1s de lo que me calma, la verdad."
+  - Se fue muy al extremo, no era tan intenso como lo estaba buscando.
+  - "No est\xE1 mal, pero para hoy necesitaba algo menos pesado y m\xE1s equilibrado."
   moveSpeed: 2

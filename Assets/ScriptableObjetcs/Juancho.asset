@@ -14,15 +14,28 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ClientProfile
   clientName: Juancho
   portrait: {fileID: 21300000, guid: 4d9e5e6534942574683232b124864adb, type: 3}
-  shortDescription: 
+  shortDescription: "Hincha que viene de celebrar el partido; quiere az\xFAcar fuerte,
+    poco hielo y casi sin fruta."
   oigaLines:
-  - "Menor, que partido tan chimba, todav\xEDa estoy con la garganta vuelta nada."
-  - "Subimos hasta ac\xE1 a seguir celebrando, necesito az\xFAcar para que esto me
-    llene."
-  - "H\xE1game algo bien dulce y cremoso, que hoy la alegr\xEDa est\xE1 arriba."
+  - "Menor, con este campeonato la garganta me qued\xF3 vuelta nada, no me mande
+    mucho hielo."
+  - "Hoy s\xED quiero az\xFAcar del alma, h\xE1game un cholado bien dulce pa\u2019
+    seguir celebrando."
+  - "La fruta d\xE9jela suave, yo lo que quiero es sirope del que pega duro."
   idealFrio: 0
   idealDulzor: 2
-  idealAcidez: 0
-  idealCremosidad: 2
   idealFruta: 0
+  reactionPerfectLines:
+  - "\xA1Uy nooo, parce! Esto est\xE1 rot\xEDsimo, golazo de cholao."
+  - "As\xED s\xED se sigue celebrando, mano. Dulce, fr\xEDo\u2026 brutal."
+  - "Tal cual lo ped\xED, esto levanta hasta despu\xE9s de tanda de penales."
+  reactionOkLines:
+  - "Est\xE1 bueno, pero le falt\xF3 un tris para la remontada, \xBFs\xED me entiende?"
+  - "Me sirve para seguirla, aunque lo sent\xED un poquito bajito de az\xFAcar."
+  - "Qued\xF3 bacano, pero s\xE9 que el siguiente nos queda modo final del Mundial"
+  reactionBadLines:
+  - "Uy, parce\u2026 ese s\xED sali\xF3 como partido perdido, \xBFqu\xE9 pas\xF3
+    ah\xED?"
+  - "Ni fr\xEDo ni dulce, qued\xF3 como 0\u20130 aburrido."
+  - "Le ten\xEDa fe, pero este s\xED no me levant\xF3 ni la moral."
   moveSpeed: 2

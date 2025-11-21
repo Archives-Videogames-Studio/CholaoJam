@@ -1,16 +1,8 @@
 using UnityEngine;
-using UnityEngine.InputSystem;   // New Input System
+using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
+using TMPro;
 
-/// Minijuego Hielo:
-/// - El jugador elige [Bajo / Medio / Alto].
-/// - El TargetMark se mueve a la altura ideal.
-/// - El juego COMIENZA cuando se pulsa ESPACIO por primera vez.
-/// - Mientras se mantiene ESPACIO, la barra se llena.
-/// - Al SOLTAR ESPACIO, la barra sube un poquito más de forma PROGRESIVA y el minijuego TERMINA.
-/// - Después de eso, no se puede seguir llenando ni usar la máquina.
-///
-/// Además expone MachineInputEnabled para que la rueda y las partículas
-/// sepan cuándo aceptar o ignorar input.
 public class IceMiniGameController : MonoBehaviour
 {
     public enum NivelSeleccion
@@ -20,16 +12,15 @@ public class IceMiniGameController : MonoBehaviour
         Alto  = 2
     }
 
-    // Flag global para la máquina (rueda + partículas)
     public static bool MachineInputEnabled { get; private set; } = false;
 
     [Header("Barra de Hielo")]
-    public IceFillBar fillBar;          // referencia a BarFill (azul)
+    public IceFillBar fillBar;
 
     [Header("Target / Objetivo")]
-    public Transform targetMark;        // rayita verde
-    public Transform targetBottomRef;   // punto de referencia para 0%
-    public Transform targetTopRef;      // punto de referencia para 100%
+    public Transform targetMark;
+    public Transform targetBottomRef;
+    public Transform targetTopRef;
 
     [Tooltip("Porcentaje ideal para dificultad Baja (0–1).")]
     public float targetLow  = 0.30f;
@@ -39,7 +30,7 @@ public class IceMiniGameController : MonoBehaviour
     public float targetHigh = 0.80f;
 
     [Header("UI Selección")]
-    public GameObject selectionPanel;   // panel con botones Bajo/Medio/Alto
+    public GameObject selectionPanel;
 
     [Header("Velocidad de llenado por dificultad (por segundo)")]
     public float fillPerSecondLow    = 0.18f;
@@ -52,17 +43,23 @@ public class IceMiniGameController : MonoBehaviour
     [Tooltip("Duración en segundos del extra progresivo.")]
     public float extraFillDuration = 0.25f;
 
+    [Header("Feedback")]
+    [Tooltip("Texto que muestra 'Chimba! / Melo! / Paila!'")]
+    public TextMeshProUGUI feedbackText;
+    [Tooltip("Tiempo que se muestra el feedback antes de volver a CristoRey.")]
+    public float feedbackDuration = 1.5f;
+
     [Header("Referencias máquina (rueda + partículas)")]
-    public Guiro guiro;   
-    public Ice ice;       
+    public Guiro guiro;
+    public Ice ice;
 
     [Header("Debug")]
     public NivelSeleccion currentLevel;
     public float currentFillPerSecond;
     public bool canPlay;
 
-    bool _hasStarted = false;   
-    bool _finished   = false;   
+    bool _hasStarted = false;
+    bool _finished   = false;
 
     bool  _addingExtra      = false;
     float _extraTime        = 0f;
@@ -78,6 +75,9 @@ public class IceMiniGameController : MonoBehaviour
 
         if (fillBar != null)
             fillBar.SetFill(0f);
+
+        if (feedbackText != null)
+            feedbackText.gameObject.SetActive(false);
 
         canPlay        = false;
         currentLevel   = NivelSeleccion.Medio;
@@ -113,7 +113,10 @@ public class IceMiniGameController : MonoBehaviour
                 _addingExtra = false;
                 _finished    = true;
                 canPlay      = false;
+
                 Debug.Log($"[HIELO] Minijuego terminado (extra completado). Llenado final = {fillBar.fill:F2}");
+
+                CompleteMinigame();
             }
 
             return;
@@ -152,20 +155,9 @@ public class IceMiniGameController : MonoBehaviour
         }
     }
 
-    public void OnSelectLow()
-    {
-        SetDifficulty(NivelSeleccion.Bajo);
-    }
-
-    public void OnSelectMedium()
-    {
-        SetDifficulty(NivelSeleccion.Medio);
-    }
-
-    public void OnSelectHigh()
-    {
-        SetDifficulty(NivelSeleccion.Alto);
-    }
+    public void OnSelectLow()    => SetDifficulty(NivelSeleccion.Bajo);
+    public void OnSelectMedium() => SetDifficulty(NivelSeleccion.Medio);
+    public void OnSelectHigh()   => SetDifficulty(NivelSeleccion.Alto);
 
     void SetDifficulty(NivelSeleccion level)
     {
@@ -198,12 +190,15 @@ public class IceMiniGameController : MonoBehaviour
         _finished    = false;
         _addingExtra = false;
 
-        
         SetMachineInput(true);
 
         Debug.Log($"[HIELO] Dificultad {level}, fillPerSecond={currentFillPerSecond}");
-    }
 
+        if (CholadoGameState.Instance != null)
+        {
+            CholadoGameState.Instance.selectedFrio = (int)currentLevel;
+        }
+    }
 
     void UpdateTargetPosition(float porcentaje)
     {
@@ -216,14 +211,101 @@ public class IceMiniGameController : MonoBehaviour
         Vector3 top    = targetTopRef.localPosition;
 
         Vector3 newPos = Vector3.Lerp(bottom, top, t);
-        newPos.z = targetMark.localPosition.z; 
+        newPos.z = targetMark.localPosition.z;
 
         targetMark.localPosition = newPos;
     }
-
 
     void SetMachineInput(bool enabled)
     {
         MachineInputEnabled = enabled;
     }
+
+    int MapFillToLevel(float fill)
+    {
+        float v = Mathf.Clamp01(fill);
+
+        if (v < 0.33f) return 0;      
+        else if (v < 0.66f) return 1; 
+        else return 2;                
+    }
+
+    string GetFeedback(int selected, int result)
+    {
+
+        switch (selected)
+        {
+            case 0:
+                if (result == 0) return "¡Chimba!";
+                if (result == 1) return "Melo!";
+                return "Paila!";
+
+            case 1: 
+                if (result == 1) return "¡Chimba!";
+                return "Melo!";
+
+            case 2: 
+                if (result == 2) return "¡Chimba!";
+                if (result == 1) return "Melo!";
+                return "Paila!";
+        }
+
+        return "Melo!"; 
+    }
+
+    void CompleteMinigame()
+    {
+        float finalFill = fillBar != null ? fillBar.fill : 0f;
+        int levelFromFill = MapFillToLevel(finalFill);
+
+        var state = CholadoGameState.Instance;
+        int selected = (state != null) ? state.selectedFrio : (int)currentLevel;
+
+        if (state != null)
+        {
+            state.resultFrio = levelFromFill;
+            state.hasFrio    = true;
+
+            Debug.Log($"[HIELO] selectedFrio={state.selectedFrio}, " +
+                      $"resultFrio={state.resultFrio}, idealFrio={state.idealFrio}");
+        }
+
+        string fb = GetFeedback(selected, levelFromFill);
+        ShowFeedback(fb);
+
+        StartCoroutine(FinishAfterDelay());
+    }
+
+    void ShowFeedback(string text)
+    {
+        if (feedbackText == null) return;
+
+        feedbackText.text = text;
+        feedbackText.gameObject.SetActive(true);
+    }
+
+    System.Collections.IEnumerator FinishAfterDelay()
+    {
+        yield return new WaitForSeconds(feedbackDuration);
+
+        var state = CholadoGameState.Instance;
+
+        System.Action midAction = () =>
+        {
+            if (state != null && state.cristoReyRoot != null)
+            {
+                state.cristoReyRoot.SetActive(true);
+            }
+
+            Scene thisScene = gameObject.scene;
+            SceneManager.UnloadSceneAsync(thisScene);
+        };
+
+        if (ScreenCurtain.Instance != null)
+            ScreenCurtain.Instance.RunTransition(midAction);
+        else
+            midAction();
+    }
+
+
 }
