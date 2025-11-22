@@ -15,38 +15,11 @@ MonoBehaviour:
   Path: Cholao/Build/Desktop/Master.strings.bank
   Name: Master.strings
   StudioPath: bank:/Master.strings
-  lastModified: 638992503179193513
+  lastModified: 638994285372062722
   FileSizes:
   - Name: Desktop
-    Value: 866
+    Value: 972
   Exists: 1
---- !u!114 &-6108842417360405852
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
-  m_Name: event:/GuitarraTest
-  m_EditorClassIdentifier: FMODUnityEditor::FMODUnity.EditorEventRef
-  Path: event:/GuitarraTest
-  Guid:
-    Data1: -1863910481
-    Data2: 1139804472
-    Data3: -206280318
-    Data4: 1862295387
-  Banks:
-  - {fileID: 5738244363350507758}
-  IsStream: 1
-  Is3D: 0
-  IsOneShot: 0
-  Parameters: []
-  MinDistance: 1
-  MaxDistance: 20
-  Length: 0
 --- !u!114 &-2470815337439536543
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -62,7 +35,7 @@ MonoBehaviour:
   Path: Cholao/Build/Desktop/FX.bank
   Name: FX
   StudioPath: bank:/FX
-  lastModified: 638992503179091474
+  lastModified: 638992483396549017
   FileSizes:
   - Name: Desktop
     Value: 506
@@ -85,16 +58,16 @@ MonoBehaviour:
   - {fileID: 5976833483191043355}
   - {fileID: 5738244363350507758}
   EditorEvents:
-  - {fileID: -6108842417360405852}
+  - {fileID: 8438208530567287095}
   EditorParameters: []
   MasterBanks:
   - {fileID: 5976833483191043355}
   StringsBanks:
   - {fileID: -8627446301764169425}
   cacheVersion: 131857
-  cacheTime: 638992503179213316
+  cacheTime: 638994286182864495
   SerializableEventsDict:
-  - key: event:/GuitarraTest
+  - key: event:/Music/New Event
     index: 0
 --- !u!114 &5738244363350507758
 MonoBehaviour:
@@ -111,10 +84,10 @@ MonoBehaviour:
   Path: Cholao/Build/Desktop/Music.bank
   Name: Music
   StudioPath: bank:/Music
-  lastModified: 638992503179213316
+  lastModified: 638994286182864495
   FileSizes:
   - Name: Desktop
-    Value: 161536
+    Value: 3165216
   Exists: 1
 --- !u!114 &5976833483191043355
 MonoBehaviour:
@@ -131,8 +104,85 @@ MonoBehaviour:
   Path: Cholao/Build/Desktop/Master.bank
   Name: Master
   StudioPath: bank:/Master
-  lastModified: 638992503179178469
+  lastModified: 638994285372058057
   FileSizes:
   - Name: Desktop
     Value: 1366
   Exists: 1
+--- !u!114 &6692410077623023313
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: parameter:/New Event/Volume
+  m_EditorClassIdentifier: FMODUnityEditor::FMODUnity.EditorParamRef
+  Name: Volume
+  StudioPath: 
+  Min: 0
+  Max: 1
+  Default: 0
+  ID:
+    data1: 3247817713
+    data2: 890721529
+  Type: 0
+  IsGlobal: 0
+  Labels: []
+  Exists: 1
+--- !u!114 &7443056353282256712
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: parameter:/New Event/Instrumentos
+  m_EditorClassIdentifier: FMODUnityEditor::FMODUnity.EditorParamRef
+  Name: Instrumentos
+  StudioPath: 
+  Min: 0
+  Max: 4
+  Default: 0
+  ID:
+    data1: 191803664
+    data2: 3160523370
+  Type: 0
+  IsGlobal: 0
+  Labels: []
+  Exists: 1
+--- !u!114 &8438208530567287095
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Music/New Event
+  m_EditorClassIdentifier: FMODUnityEditor::FMODUnity.EditorEventRef
+  Path: event:/Music/New Event
+  Guid:
+    Data1: 263632948
+    Data2: 1088238406
+    Data3: 557341313
+    Data4: 1326016850
+  Banks:
+  - {fileID: 5738244363350507758}
+  IsStream: 1
+  Is3D: 0
+  IsOneShot: 0
+  Parameters:
+  - {fileID: 7443056353282256712}
+  - {fileID: 6692410077623023313}
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 26936

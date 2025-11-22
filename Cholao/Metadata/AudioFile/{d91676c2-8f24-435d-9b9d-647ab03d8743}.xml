@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.02.03.00">
+	<object class="AudioFile" id="{d91676c2-8f24-435d-9b9d-647ab03d8743}">
+		<property name="assetPath">
+			<value>Cholados Soundtrack - Piano.wav</value>
+		</property>
+		<property name="isStreaming">
+			<value>true</value>
+		</property>
+		<property name="frequencyInKHz">
+			<value>44.0999985</value>
+		</property>
+		<property name="channelCount">
+			<value>2</value>
+		</property>
+		<property name="length">
+			<value>26.936031746031745</value>
+		</property>
+		<relationship name="masterAssetFolder">
+			<destination>{0cee87cb-d73d-4665-92f8-c9cbd6247b11}</destination>
+		</relationship>
+	</object>
+</objects>
