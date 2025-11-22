@@ -38,4 +38,7 @@ MonoBehaviour:
     ah\xED?"
   - "Ni fr\xEDo ni dulce, qued\xF3 como 0\u20130 aburrido."
   - "Le ten\xEDa fe, pero este s\xED no me levant\xF3 ni la moral."
+  reactionChimba: {fileID: 21300000, guid: c1f461c7f7aeb41e1a793dc5503e4abf, type: 3}
+  reactionMelo: {fileID: 21300000, guid: 3c3e588c26e8841569842504a8ac39d6, type: 3}
+  reactionPaila: {fileID: 21300000, guid: 12c0a22f73c834bb7a818f54aaf02e29, type: 3}
   moveSpeed: 2

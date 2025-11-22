@@ -40,4 +40,7 @@ MonoBehaviour:
   - "Uy no, mijo\u2026 esto s\xED me va a caer pesad\xEDsimo para bajar esas escaleras."
   - "Se le fue la mano, yo le dije que lo quer\xEDa suavecito."
   - "La intenci\xF3n estuvo bonita, pero este no fue para m\xED, mi amor."
+  reactionChimba: {fileID: 21300000, guid: 24dd63e055d06441b9ae72cd151704f5, type: 3}
+  reactionMelo: {fileID: 21300000, guid: a947aa22e332b4a9e90f16e3e7b2c09f, type: 3}
+  reactionPaila: {fileID: 21300000, guid: 95c3d3cb95dad204fa1595b3fbd2ceb2, type: 3}
   moveSpeed: 2

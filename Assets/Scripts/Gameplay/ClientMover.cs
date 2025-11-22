@@ -17,8 +17,8 @@ public class ClientMover : MonoBehaviour
 
     [Header("Bob de caminar")]
     public bool enableBob = true;
-    public float bobAmplitude = 0.05f;   
-    public float bobFrequency = 6f;     
+    public float bobAmplitude = 0.05f;
+    public float bobFrequency = 6f;
 
     public event Action<ClientMover> OnClientReachedCounter;
     public event Action<ClientMover> OnClientFinished;
@@ -30,10 +30,16 @@ public class ClientMover : MonoBehaviour
     private Vector3 _logicalPosition;
     private float _bobTimer = 0f;
 
+    // guardamos la cara neutra
+    Sprite _defaultSprite;
+
     void Awake()
     {
         if (spriteRenderer == null)
             spriteRenderer = GetComponentInChildren<SpriteRenderer>();
+
+        if (spriteRenderer != null)
+            _defaultSprite = spriteRenderer.sprite;
     }
 
     void Start()
@@ -46,7 +52,10 @@ public class ClientMover : MonoBehaviour
         }
 
         if (profile != null && spriteRenderer != null)
+        {
             spriteRenderer.sprite = profile.portrait;
+            _defaultSprite = spriteRenderer.sprite;
+        }
 
         if (profile != null)
             speed = profile.moveSpeed;
@@ -136,6 +145,32 @@ public class ClientMover : MonoBehaviour
         if (waypoints == null || waypoints.Length < 3) return;
 
         _state = ClientState.Leaving;
-        _currentTarget = waypoints[2]; 
+        _currentTarget = waypoints[2];
+    }
+
+    // --------- NUEVO: sprites de reacción ---------
+
+    public void SetFaceChimba()
+    {
+        if (profile != null && profile.reactionChimba != null && spriteRenderer != null)
+            spriteRenderer.sprite = profile.reactionChimba;
+    }
+
+    public void SetFaceMelo()
+    {
+        if (profile != null && profile.reactionMelo != null && spriteRenderer != null)
+            spriteRenderer.sprite = profile.reactionMelo;
+    }
+
+    public void SetFacePaila()
+    {
+        if (profile != null && profile.reactionPaila != null && spriteRenderer != null)
+            spriteRenderer.sprite = profile.reactionPaila;
+    }
+
+    public void ResetFace()
+    {
+        if (spriteRenderer != null && _defaultSprite != null)
+            spriteRenderer.sprite = _defaultSprite;
     }
 }

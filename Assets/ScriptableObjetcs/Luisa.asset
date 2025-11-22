@@ -37,4 +37,7 @@ MonoBehaviour:
   - "Uf\u2026 siento que me revuelve m\xE1s de lo que me calma, la verdad."
   - Se fue muy al extremo, no era tan intenso como lo estaba buscando.
   - "No est\xE1 mal, pero para hoy necesitaba algo menos pesado y m\xE1s equilibrado."
+  reactionChimba: {fileID: 21300000, guid: cd686e38fefc6be459b8ddee08926185, type: 3}
+  reactionMelo: {fileID: 21300000, guid: 47298a7cd841d4949aa96e9101ddd47d, type: 3}
+  reactionPaila: {fileID: 21300000, guid: f6d8b1c9fcd34fd49b08a6bcca96878f, type: 3}
   moveSpeed: 2

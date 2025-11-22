@@ -141,6 +141,24 @@ public class ClientSequenceManager : MonoBehaviour
 
         Debug.Log($"[VEA] Satisfacción={level}, reacción='{reactionLine}'");
 
+        if (_currentClient != null)
+        {
+            switch (level)
+            {
+                case CholadoGameState.SatisfactionLevel.Perfect:
+                    _currentClient.SetFaceChimba();
+                    break;
+
+                case CholadoGameState.SatisfactionLevel.Ok:
+                    _currentClient.SetFaceMelo();
+                    break;
+
+                case CholadoGameState.SatisfactionLevel.Bad:
+                    _currentClient.SetFacePaila();
+                    break;
+            }
+        }
+
         if (string.IsNullOrEmpty(reactionLine))
         {
             dialogueController.Hide();

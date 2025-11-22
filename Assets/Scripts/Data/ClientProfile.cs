@@ -23,6 +23,11 @@ public class ClientProfile : ScriptableObject
     [TextArea] public string[] reactionOkLines;
     [TextArea] public string[] reactionBadLines;
 
+    [Header("Sprites de reacción")]
+    public Sprite reactionChimba;   // Muy feliz
+    public Sprite reactionMelo;     // Meh / neutro
+    public Sprite reactionPaila;    // Molesto
+
     [Header("Parámetros de movimiento")]
     public float moveSpeed = 2f;
 }
