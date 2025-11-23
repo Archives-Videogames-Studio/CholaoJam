@@ -11,10 +11,18 @@ public class MusicModulations : MonoBehaviour
     public float speed = 2f;
 
     private float currentValue;
-    public float currentVolume;
+    public float currentVolume = 1;
+
+    private Bus masterBus;
+
+
 
     void Start()
     {
+        masterBus = RuntimeManager.GetBus("bus:/");
+
+        currentVolume = 1;
+
         if (emitter == null)
             emitter = FindFirstObjectByType<StudioEventEmitter>();
         
@@ -29,7 +37,9 @@ public class MusicModulations : MonoBehaviour
     {
         currentValue = Mathf.MoveTowards(currentValue, targetValue, speed * Time.deltaTime);
         instance.setParameterByName("Instrumentos", currentValue);
-        instance.getParameterByName("Volume", out currentValue);
+  
+        masterBus.setVolume(currentVolume);
+
     }
 
     public void SetInst(float value)
@@ -39,7 +49,7 @@ public class MusicModulations : MonoBehaviour
 
     public void SetVolume(float volume)
     {
-        instance.setParameterByName("Volume", volume);
+        currentVolume = volume;
     }
 
 }

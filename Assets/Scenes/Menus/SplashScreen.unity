@@ -542,6 +542,7 @@ MonoBehaviour:
   emitter: {fileID: 0}
   targetValue: 1
   speed: 0.5
+  currentVolume: 0
 --- !u!1 &1404282584
 GameObject:
   m_ObjectHideFlags: 0

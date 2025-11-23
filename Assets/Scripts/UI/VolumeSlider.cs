@@ -6,8 +6,14 @@ public class VolumeSlider : MonoBehaviour
     public Slider slider;
     public MusicModulations mm;
 
-    public void Awake()
+    private void OnEnable()
     {
         slider.value = mm.currentVolume;
     }
+
+    public void SetMasterVolume()
+    {
+        mm.SetVolume(slider.value);
+    }
+
 }
