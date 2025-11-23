@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 5231565777924572057}
   - component: {fileID: 604154490610225607}
   - component: {fileID: 8128299471768110278}
+  - component: {fileID: 2437043994160621504}
   m_Layer: 7
   m_Name: Cliente
   m_TagString: Untagged
@@ -102,7 +103,7 @@ Animator:
   m_GameObject: {fileID: 1693657312022447412}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: e3173dfca0a134872b3dc394626e8b84, type: 2}
+  m_Controller: {fileID: 9100000, guid: 7a7f55037734eb44a8b4f24c9089eb5e, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -130,3 +131,18 @@ MonoBehaviour:
   spriteRenderer: {fileID: 0}
   waypoints: []
   speed: 2
+  enableBob: 1
+  bobAmplitude: 0.05
+  bobFrequency: 6
+--- !u!114 &2437043994160621504
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1693657312022447412}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cdb08928613c92343a6f4dcff2a868f8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ClientMoodAnimator

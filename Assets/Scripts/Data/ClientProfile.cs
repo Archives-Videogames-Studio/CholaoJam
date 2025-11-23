@@ -10,13 +10,16 @@ public class ClientProfile : ScriptableObject
     public Sprite portrait;
     [TextArea] public string shortDescription;
 
+    [Header("Animator")]
+    public AnimatorOverrideController animatorOverride;  // ← NUEVO
+
     [Header("Diálogos OIGA")]
     [TextArea] public string[] oigaLines;
 
     [Header("Cholado ideal (0=Bajo,1=Medio,2=Alto)")]
-    [Range(0, 2)] public int idealFrio;
-    [Range(0, 2)] public int idealDulzor;
-    [Range(0, 2)] public int idealFruta;
+    public int idealFrio;
+    public int idealDulzor;
+    public int idealFruta;
 
     [Header("Reacción al cholado")]
     [TextArea] public string[] reactionPerfectLines; 
@@ -24,9 +27,9 @@ public class ClientProfile : ScriptableObject
     [TextArea] public string[] reactionBadLines;
 
     [Header("Sprites de reacción")]
-    public Sprite reactionChimba;   // Muy feliz
-    public Sprite reactionMelo;     // Meh / neutro
-    public Sprite reactionPaila;    // Molesto
+    public Sprite reactionChimba;
+    public Sprite reactionMelo;
+    public Sprite reactionPaila;
 
     [Header("Parámetros de movimiento")]
     public float moveSpeed = 2f;

@@ -18,8 +18,15 @@ public class ClientSequenceManager : MonoBehaviour
     public GameObject oigaButton;
     public GameObject veaButton;
 
+    [Header("Máquinas (MIRE)")]
+    [SerializeField] private ChangeMachineButton machinesManager;
+
     int _currentIndex = -1;
     ClientMover _currentClient;
+
+    // Animador de humor del cliente actual (para MachinesManager)
+    ClientMoodAnimator _currentClientAnimator;
+    public ClientMoodAnimator CurrentMoodAnimator => _currentClientAnimator;
 
     bool _waitingReaction = false;
 
@@ -70,11 +77,44 @@ public class ClientSequenceManager : MonoBehaviour
         _currentClient.waypoints = waypoints;
         _currentClient.profile   = profile;
 
+        // 1) Sprite estático desde el ScriptableObject (portrait)
+        SpriteRenderer sr = _currentClient.GetComponentInChildren<SpriteRenderer>();
+        if (sr != null && profile.portrait != null)
+        {
+            sr.sprite = profile.portrait;
+        }
+
+        // 2) Aplicar override de animación (pero no encender nada todavía)
+        Animator animator = _currentClient.GetComponent<Animator>();
+        if (animator != null && profile.animatorOverride != null)
+        {
+            animator.runtimeAnimatorController = profile.animatorOverride;
+        }
+
+        // 3) Cachear ClientMoodAnimator y APAGAR el animator
+        _currentClientAnimator = _currentClient.GetComponent<ClientMoodAnimator>();
+        if (_currentClientAnimator != null)
+        {
+            _currentClientAnimator.SetNeutral();
+            _currentClientAnimator.DisableAnimation();   // <- aquí lo apagamos
+        }
+        else
+        {
+            Debug.LogWarning("[ClientSequence] Cliente sin ClientMoodAnimator.");
+        }
+
+        // 4) Nuevo cliente => MIRE apagado
+        if (machinesManager != null)
+        {
+            machinesManager.SetMireActive(false);
+        }
+
         _currentClient.OnClientReachedCounter += HandleClientReachedCounter;
         _currentClient.OnClientFinished       += HandleClientFinished;
 
         Debug.Log($"Spawn cliente: {profile.clientName}");
     }
+
 
     void HandleClientReachedCounter(ClientMover mover)
     {
@@ -97,6 +137,9 @@ public class ClientSequenceManager : MonoBehaviour
 
         if (oigaButton != null) oigaButton.SetActive(true);
         UpdateVeaButton();
+
+        // Después de hablar, seguimos mostrando solo el portrait (neutro)
+        _currentClientAnimator?.SetNeutral();
     }
 
     void HandleClientFinished(ClientMover mover)
@@ -105,14 +148,32 @@ public class ClientSequenceManager : MonoBehaviour
         mover.OnClientFinished       -= HandleClientFinished;
 
         _currentClient = null;
+        _currentClientAnimator = null;
+
         SpawnNextClient();
     }
 
+    // ===== OIGA =====
     public void OnPressOiga()
     {
         dialogueController?.ReplayLast();
     }
 
+    // ===== MIRE! =====
+    public void OnPressMire()
+    {
+        if (_currentClient == null) return;
+
+        if (machinesManager != null)
+        {
+            // Esto hará:
+            // - EnableAnimation() en ClientMoodAnimator
+            // - Calcular ideal y poner estrellas / neutro
+            machinesManager.SetMireActive(true);
+        }
+    }
+
+    // ===== VEA =====
     public void OnPressVea()
     {
         if (_currentClient == null || dialogueController == null)
@@ -125,7 +186,7 @@ public class ClientSequenceManager : MonoBehaviour
             return;
         }
 
-        if (_waitingReaction) return; 
+        if (_waitingReaction) return;
 
         if (buttonsRoot != null) buttonsRoot.SetActive(false);
 
@@ -136,29 +197,49 @@ public class ClientSequenceManager : MonoBehaviour
             return;
         }
 
+        // 1) Evaluar satisfacción
         CholadoGameState.SatisfactionLevel level;
         string reactionLine = state.GetReactionLine(out level);
 
         Debug.Log($"[VEA] Satisfacción={level}, reacción='{reactionLine}'");
 
-        if (_currentClient != null)
+        // 2) APAGAR animaciones de MIRE (modo idle animado)
+        if (machinesManager != null)
+        {
+            machinesManager.SetMireActive(false);   // Esto internamente llama DisableAnimation()
+        }
+        else if (_currentClientAnimator != null)
+        {
+            // Por si acaso, apagar directo si no hay machinesManager
+            _currentClientAnimator.DisableAnimation();
+        }
+
+        // 3) Mostrar sprite estático de reacción según el nivel
+        var profile = state.currentClient;
+        SpriteRenderer sr = _currentClient.GetComponentInChildren<SpriteRenderer>();
+
+        if (sr != null && profile != null)
         {
             switch (level)
             {
                 case CholadoGameState.SatisfactionLevel.Perfect:
-                    _currentClient.SetFaceChimba();
+                    if (profile.reactionChimba != null)
+                        sr.sprite = profile.reactionChimba;
                     break;
 
                 case CholadoGameState.SatisfactionLevel.Ok:
-                    _currentClient.SetFaceMelo();
+                    if (profile.reactionMelo != null)
+                        sr.sprite = profile.reactionMelo;
                     break;
 
                 case CholadoGameState.SatisfactionLevel.Bad:
-                    _currentClient.SetFacePaila();
+                    if (profile.reactionPaila != null)
+                        sr.sprite = profile.reactionPaila;
                     break;
             }
         }
 
+        // 4) Diálogo de reacción como ya lo tenías
         if (string.IsNullOrEmpty(reactionLine))
         {
             dialogueController.Hide();
@@ -167,10 +248,11 @@ public class ClientSequenceManager : MonoBehaviour
         }
 
         _waitingReaction = true;
-        dialogueController.Hide(); 
+        dialogueController.Hide();
         dialogueController.OnDialogueFinished += HandleReactionFinished;
         dialogueController.PlayReaction(state.currentClient, reactionLine);
     }
+
 
     void HandleReactionFinished()
     {

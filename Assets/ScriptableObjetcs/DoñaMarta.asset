@@ -16,6 +16,7 @@ MonoBehaviour:
   portrait: {fileID: 21300000, guid: 95c3d3cb95dad204fa1595b3fbd2ceb2, type: 3}
   shortDescription: "Vendedora cansada del centro que busca algo muy fr\xEDo, ligero
     y con mucha fruta."
+  animatorOverride: {fileID: 22100000, guid: 99ce7466ad2191842892c939465dd663, type: 2}
   oigaLines:
   - "Ay mijo, qu\xE9 calor tan bravo el de hoy\u2026 si no me da algo bien fr\xEDo
     me derrito."

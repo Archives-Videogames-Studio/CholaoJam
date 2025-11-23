@@ -16,6 +16,7 @@ MonoBehaviour:
   portrait: {fileID: 21300000, guid: 4d9e5e6534942574683232b124864adb, type: 3}
   shortDescription: "Hincha que viene de celebrar el partido; quiere az\xFAcar fuerte,
     poco hielo y casi sin fruta."
+  animatorOverride: {fileID: 22100000, guid: 2e6e095bd5b339c40b618bff507d88f2, type: 2}
   oigaLines:
   - "Menor, con este campeonato la garganta me qued\xF3 vuelta nada, no me mande
     mucho hielo."
