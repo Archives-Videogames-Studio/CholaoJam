@@ -625,6 +625,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 567297723}
+        m_TargetAssemblyTypeName: FMODUnity.StudioEventEmitter, FMODUnity
+        m_MethodName: Play
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &217232411
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -845,6 +857,79 @@ Canvas:
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_TargetDisplay: 0
+--- !u!1001 &567297722
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 913195415}
+    m_Modifications:
+    - target: {fileID: 3105997114791939812, guid: 02b9a87b3b07d47e6b3ad9c395212fc6, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -37.729248
+      objectReference: {fileID: 0}
+    - target: {fileID: 3105997114791939812, guid: 02b9a87b3b07d47e6b3ad9c395212fc6, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 86.5939
+      objectReference: {fileID: 0}
+    - target: {fileID: 3105997114791939812, guid: 02b9a87b3b07d47e6b3ad9c395212fc6, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3105997114791939812, guid: 02b9a87b3b07d47e6b3ad9c395212fc6, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3105997114791939812, guid: 02b9a87b3b07d47e6b3ad9c395212fc6, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3105997114791939812, guid: 02b9a87b3b07d47e6b3ad9c395212fc6, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3105997114791939812, guid: 02b9a87b3b07d47e6b3ad9c395212fc6, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3105997114791939812, guid: 02b9a87b3b07d47e6b3ad9c395212fc6, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3105997114791939812, guid: 02b9a87b3b07d47e6b3ad9c395212fc6, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3105997114791939812, guid: 02b9a87b3b07d47e6b3ad9c395212fc6, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5264566741843156396, guid: 02b9a87b3b07d47e6b3ad9c395212fc6, type: 3}
+      propertyPath: m_Name
+      value: FxButtonAudio
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 02b9a87b3b07d47e6b3ad9c395212fc6, type: 3}
+--- !u!114 &567297723 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6831459248793573749, guid: 02b9a87b3b07d47e6b3ad9c395212fc6, type: 3}
+  m_PrefabInstance: {fileID: 567297722}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a6610d2e704f1648819acc8d7460285, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: FMODUnity::FMODUnity.StudioEventEmitter
+--- !u!4 &567297724 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 3105997114791939812, guid: 02b9a87b3b07d47e6b3ad9c395212fc6, type: 3}
+  m_PrefabInstance: {fileID: 567297722}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &701231830
 GameObject:
   m_ObjectHideFlags: 0
@@ -1148,6 +1233,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 4892084857222670920, guid: eb6b02265c927467d9ad5657a0ebe047, type: 3}
       insertIndex: -1
       addedObject: {fileID: 934414663}
+    - targetCorrespondingSourceObject: {fileID: 4892084857222670920, guid: eb6b02265c927467d9ad5657a0ebe047, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 567297724}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: eb6b02265c927467d9ad5657a0ebe047, type: 3}
 --- !u!4 &913195415 stripped
@@ -1476,7 +1564,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1305018621}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 567297723}
+        m_TargetAssemblyTypeName: FMODUnity.StudioEventEmitter, FMODUnity
+        m_MethodName: Play
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1305018621
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1598,6 +1698,18 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
+      - m_Target: {fileID: 567297723}
+        m_TargetAssemblyTypeName: FMODUnity.StudioEventEmitter, FMODUnity
+        m_MethodName: Play
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
       - m_Target: {fileID: 934414664}
         m_TargetAssemblyTypeName: SceneLoader, Assembly-CSharp
         m_MethodName: SceneLoadByName
@@ -2342,6 +2454,18 @@ MonoBehaviour:
         m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
         m_MethodName: SetActive
         m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 567297723}
+        m_TargetAssemblyTypeName: FMODUnity.StudioEventEmitter, FMODUnity
+        m_MethodName: Play
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
