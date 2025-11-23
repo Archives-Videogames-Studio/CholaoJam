@@ -21,6 +21,9 @@ EditorBuildSettings:
     path: Assets/Scenes/Minigames/Fruta.unity
     guid: 17ccb924622bc154d963187cc708c23b
   - enabled: 1
+    path: Assets/Scenes/Menus/Map.unity
+    guid: 59a7d341eb9292a49a19ee608bd4648c
+  - enabled: 1
     path: Assets/Scenes/Minigames/Sirope.unity
     guid: b7c6da5a0c671624294041c6e2d3bfd0
   m_configObjects:

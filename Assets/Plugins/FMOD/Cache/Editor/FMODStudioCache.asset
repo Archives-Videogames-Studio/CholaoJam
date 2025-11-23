@@ -15,7 +15,7 @@ MonoBehaviour:
   Path: Cholao/Build/Desktop/Master.strings.bank
   Name: Master.strings
   StudioPath: bank:/Master.strings
-  lastModified: 638994298015687349
+  lastModified: 638994285372062722
   FileSizes:
   - Name: Desktop
     Value: 972
@@ -35,7 +35,7 @@ MonoBehaviour:
   Path: Cholao/Build/Desktop/FX.bank
   Name: FX
   StudioPath: bank:/FX
-  lastModified: 638992503179091474
+  lastModified: 638992483396549017
   FileSizes:
   - Name: Desktop
     Value: 506
@@ -65,7 +65,7 @@ MonoBehaviour:
   StringsBanks:
   - {fileID: -8627446301764169425}
   cacheVersion: 131857
-  cacheTime: 638994298015782343
+  cacheTime: 638994416231275392
   SerializableEventsDict:
   - key: event:/Music/New Event
     index: 0
@@ -84,10 +84,10 @@ MonoBehaviour:
   Path: Cholao/Build/Desktop/Music.bank
   Name: Music
   StudioPath: bank:/Music
-  lastModified: 638994298015782343
+  lastModified: 638994416231275392
   FileSizes:
   - Name: Desktop
-    Value: 3165216
+    Value: 3165088
   Exists: 1
 --- !u!114 &5976833483191043355
 MonoBehaviour:
@@ -104,7 +104,7 @@ MonoBehaviour:
   Path: Cholao/Build/Desktop/Master.bank
   Name: Master
   StudioPath: bank:/Master
-  lastModified: 638992503179178469
+  lastModified: 638994285372058057
   FileSizes:
   - Name: Desktop
     Value: 1366

@@ -21,7 +21,10 @@ public class MusicModulations : MonoBehaviour
     {
         masterBus = RuntimeManager.GetBus("bus:/");
 
-        currentVolume = 1;
+        float volume;
+        masterBus.getVolume(out volume);
+
+        currentVolume = volume;
 
         if (emitter == null)
             emitter = FindFirstObjectByType<StudioEventEmitter>();
