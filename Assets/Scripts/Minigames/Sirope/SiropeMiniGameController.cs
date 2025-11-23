@@ -12,6 +12,14 @@ public class SiropeMiniGameController : MonoBehaviour
         Alto  = 2
     }
 
+    // === NUEVO: tipos de feedback visual ===
+    public enum FeedbackType
+    {
+        Chimba,
+        Melo,
+        Paila
+    }
+
     [Header("Aguja / Medidor")]
     public Transform needle;
     public Transform meterBottomRef;
@@ -37,11 +45,18 @@ public class SiropeMiniGameController : MonoBehaviour
     [Header("Partículas de sirope (decoración)")]
     public ParticleSystem syrupParticles;
 
-    [Header("Feedback")]
-    [Tooltip("Texto que muestra 'Chimba! / Melo! / Paila!'")]
+    [Header("Feedback (texto opcional)")]
+    [Tooltip("Texto que muestra 'Chimba! / Melo! / Paila!' (puede dejarse vacío si solo usas sprites).")]
     public TextMeshProUGUI feedbackText;
     [Tooltip("Tiempo que se muestra el feedback antes de volver a CristoRey.")]
     public float feedbackDuration = 1.5f;
+
+    [Header("Feedback visual (sprites)")]
+    [Tooltip("SpriteRenderer donde se pintará CHIMBA / MELO / PAILA.")]
+    public SpriteRenderer feedbackSprite;
+    public Sprite chimbaSprite;
+    public Sprite meloSprite;
+    public Sprite pailaSprite;
 
     [Header("Resultado")]
     [Range(0f, 1f)] public float valorAccion;
@@ -91,6 +106,9 @@ public class SiropeMiniGameController : MonoBehaviour
 
         if (feedbackText != null)
             feedbackText.gameObject.SetActive(false);
+
+        if (feedbackSprite != null)
+            feedbackSprite.gameObject.SetActive(false);
     }
 
     void Update()
@@ -118,7 +136,7 @@ public class SiropeMiniGameController : MonoBehaviour
             if (kb.spaceKey.isPressed)
             {
                 _phase += oscSpeed * Time.deltaTime;
-                float t = Mathf.Sin(_phase) * 0.5f + 0.5f; 
+                float t = Mathf.Sin(_phase) * 0.5f + 0.5f;
                 _lastValue = t;
                 MoveNeedleTo(t);
             }
@@ -141,6 +159,11 @@ public class SiropeMiniGameController : MonoBehaviour
                     Debug.Log($"[SIROPE] selectedDulzor={state.selectedDulzor}, " +
                               $"resultDulzor={state.resultDulzor}, idealDulzor={state.idealDulzor}");
                 }
+                if (state != null && state.choladoVisual != null)
+                {
+                    state.choladoVisual.RefreshFromState();
+                }
+
 
                 if (syrupParticles != null)
                 {
@@ -148,14 +171,15 @@ public class SiropeMiniGameController : MonoBehaviour
                 }
 
                 int selected = (state != null) ? state.selectedDulzor : (int)currentLevel;
-                string fb = GetFeedback(selected, DULZOR);
-                ShowFeedback(fb);
+
+                // NUEVO: Calculamos tipo de feedback (Chimba / Melo / Paila)
+                FeedbackType fbType = GetFeedbackType(selected, DULZOR);
+                ShowFeedback(fbType);
 
                 StartCoroutine(FinishAfterDelay());
             }
         }
     }
-
 
     public void OnSelectLow()    => SetDifficulty(NivelSeleccion.Bajo,   lowRange);
     public void OnSelectMedium() => SetDifficulty(NivelSeleccion.Medio,  medRange);
@@ -186,7 +210,6 @@ public class SiropeMiniGameController : MonoBehaviour
             state.selectedDulzor = (int)nivel;
         }
     }
-
 
     void MoveNeedleTo(float t)
     {
@@ -220,47 +243,78 @@ public class SiropeMiniGameController : MonoBehaviour
         center.z        = zoneGreen.localPosition.z;
 
         zoneGreen.localPosition = center;
-
-        zoneGreen.localScale = _zoneOriginalScale;
+        zoneGreen.localScale    = _zoneOriginalScale;
     }
 
     int MapValorToNivel(float v)
     {
         v = Mathf.Clamp01(v);
-        if (v < 0.33f)      return 0; 
-        else if (v < 0.66f) return 1; 
-        else                return 2; 
+        if (v < 0.33f)      return 0;
+        else if (v < 0.66f) return 1;
+        else                return 2;
     }
 
-    string GetFeedback(int selected, int result)
+    // ========= NUEVO: LÓGICA DE FEEDBACK COMO ENUM =========
+    FeedbackType GetFeedbackType(int selected, int result)
     {
         switch (selected)
         {
-            case 0: 
-                if (result == 0) return "¡Chimba!";
-                if (result == 1) return "Melo!";
-                return "Paila!";
+            case 0: // jugador eligió BAJO
+                if (result == 0) return FeedbackType.Chimba;
+                if (result == 1) return FeedbackType.Melo;
+                return FeedbackType.Paila;
 
-            case 1: 
-                if (result == 1) return "¡Chimba!";
-                return "Melo!";
+            case 1: // jugador eligió MEDIO
+                if (result == 1) return FeedbackType.Chimba;
+                return FeedbackType.Melo;
 
-            case 2:
-                if (result == 2) return "¡Chimba!";
-                if (result == 1) return "Melo!";
-                return "Paila!";
+            case 2: // jugador eligió ALTO
+                if (result == 2) return FeedbackType.Chimba;
+                if (result == 1) return FeedbackType.Melo;
+                return FeedbackType.Paila;
+        }
+        return FeedbackType.Melo;
+    }
+
+    string FeedbackTypeToText(FeedbackType type)
+    {
+        switch (type)
+        {
+            case FeedbackType.Chimba: return "¡Chimba!";
+            case FeedbackType.Melo:   return "Melo!";
+            case FeedbackType.Paila:  return "Paila!";
         }
         return "Melo!";
     }
 
-    void ShowFeedback(string text)
+    void ShowFeedback(FeedbackType type)
     {
-        if (feedbackText == null) return;
+        // Texto (opcional, por si quieres mostrar además del sprite)
+        if (feedbackText != null)
+        {
+            feedbackText.text = FeedbackTypeToText(type);
+            feedbackText.gameObject.SetActive(true);
+        }
 
-        feedbackText.text = text;
-        feedbackText.gameObject.SetActive(true);
+        // Sprite visual
+        if (feedbackSprite != null)
+        {
+            switch (type)
+            {
+                case FeedbackType.Chimba:
+                    feedbackSprite.sprite = chimbaSprite;
+                    break;
+                case FeedbackType.Melo:
+                    feedbackSprite.sprite = meloSprite;
+                    break;
+                case FeedbackType.Paila:
+                    feedbackSprite.sprite = pailaSprite;
+                    break;
+            }
+
+            feedbackSprite.gameObject.SetActive(true);
+        }
     }
-
 
     System.Collections.IEnumerator FinishAfterDelay()
     {

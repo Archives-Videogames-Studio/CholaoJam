@@ -16,6 +16,9 @@ public class ClientProfile : ScriptableObject
     [Header("Diálogos OIGA")]
     [TextArea] public string[] oigaLines;
 
+    [Header("Pistas OIGA (palabras a resaltar)")]
+    public string[] oigaKeywords;
+
     [Header("Cholado ideal (0=Bajo,1=Medio,2=Alto)")]
     public int idealFrio;
     public int idealDulzor;

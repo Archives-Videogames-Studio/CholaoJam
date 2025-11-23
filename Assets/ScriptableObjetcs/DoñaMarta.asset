@@ -23,6 +23,12 @@ MonoBehaviour:
   - "Eso s\xED, que no sea tan empalagoso, que despu\xE9s tengo que seguir caminando
     cuesta abajo."
   - "Si le puede poner harta frutica fresca, mejor, que eso s\xED me entra suavecito."
+  oigaKeywords:
+  - calor
+  - "fr\xEDo"
+  - empalagoso
+  - frutica
+  - suavecito
   idealFrio: 2
   idealDulzor: 0
   idealFruta: 2

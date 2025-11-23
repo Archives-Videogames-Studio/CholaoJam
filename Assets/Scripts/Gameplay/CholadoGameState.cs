@@ -38,6 +38,9 @@ public class CholadoGameState : MonoBehaviour
     [Header("Roots visuales principales")]
     public GameObject cristoReyRoot;
 
+    [Header("Visual del cholado")]
+    public CholadoVisual choladoVisual;
+
     public bool IsCholadoReady()
     {
         return hasFrio && hasDulzor && hasFruta;
@@ -70,6 +73,9 @@ public class CholadoGameState : MonoBehaviour
         hasFrio   = false;
         hasDulzor = false;
         hasFruta  = false;
+
+        if (choladoVisual != null)
+            choladoVisual.ClearAll();
 
         Debug.Log($"[STATE] Cliente actual: {profile.clientName} " +
                   $"Ideal => Frio={idealFrio}, Dulzor={idealDulzor}, Fruta={idealFruta}");

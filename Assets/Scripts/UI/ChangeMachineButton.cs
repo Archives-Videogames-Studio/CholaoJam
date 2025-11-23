@@ -18,6 +18,7 @@ public class ChangeMachineButton : MonoBehaviour
         UpdateActiveMachine();
     }
 
+    // ---------- BOTÓN ARRIBA ----------
     public void UpMachine()
     {
         if (machines == null || machines.Length == 0) return;
@@ -25,6 +26,19 @@ public class ChangeMachineButton : MonoBehaviour
         index++;
         if (index >= machines.Length)
             index = 0;
+
+        UpdateActiveMachine();
+        RefreshMoodIfNeeded();
+    }
+
+    // ---------- BOTÓN ABAJO ----------
+    public void DownMachine()
+    {
+        if (machines == null || machines.Length == 0) return;
+
+        index--;
+        if (index < 0)
+            index = machines.Length - 1;
 
         UpdateActiveMachine();
         RefreshMoodIfNeeded();
@@ -41,7 +55,7 @@ public class ChangeMachineButton : MonoBehaviour
         }
     }
 
-    // >>> ESTE es el que llama el ClientSequenceManager cuando pulsas MIRE! <<<
+    // ======= MIRE! =======
     public void SetMireActive(bool active)
     {
         _mireActive = active;
@@ -51,19 +65,15 @@ public class ChangeMachineButton : MonoBehaviour
 
         if (active)
         {
-            // Encendemos el animator y aplicamos estrellas/neutro
             mood.EnableAnimation();
             RefreshMoodIfNeeded();
         }
         else
         {
-            // Lo apagamos y lo dejamos neutro (nuevo cliente, por ejemplo)
             mood.SetNeutral();
             mood.DisableAnimation();
         }
     }
-
-    // ---------- lógica de humor ----------
 
     void RefreshMoodIfNeeded()
     {

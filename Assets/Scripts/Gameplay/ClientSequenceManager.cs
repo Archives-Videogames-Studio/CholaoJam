@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;   // <-- IMPORTANTE
 
 public class ClientSequenceManager : MonoBehaviour
 {
@@ -20,6 +21,9 @@ public class ClientSequenceManager : MonoBehaviour
 
     [Header("Máquinas (MIRE)")]
     [SerializeField] private ChangeMachineButton machinesManager;
+
+    [Header("Escena a la que volvemos cuando no hay más clientes")]
+    public string mapSceneName = "Mapa";   // <-- pon aquí el nombre REAL de tu escena de mapa
 
     int _currentIndex = -1;
     ClientMover _currentClient;
@@ -48,11 +52,32 @@ public class ClientSequenceManager : MonoBehaviour
     {
         _currentIndex++;
 
+        // =========================
+        //   YA NO HAY MÁS CLIENTES
+        // =========================
         if (_currentIndex >= clients.Length)
         {
             Debug.Log("No hay más clientes en la secuencia (MVP completo).");
             dialogueController?.Hide();
             if (buttonsRoot != null) buttonsRoot.SetActive(false);
+
+            // Limpiamos el vaso por si quedó algo
+            var state = CholadoGameState.Instance;
+            if (state != null && state.choladoVisual != null)
+            {
+                state.choladoVisual.ClearAll();
+            }
+
+            // Volvemos a la escena del mapa
+            if (!string.IsNullOrEmpty(mapSceneName))
+            {
+                SceneManager.LoadScene(mapSceneName, LoadSceneMode.Single);
+            }
+            else
+            {
+                Debug.LogWarning("[ClientSequenceManager] mapSceneName está vacío, no puedo cargar el mapa.");
+            }
+
             return;
         }
 
@@ -115,7 +140,6 @@ public class ClientSequenceManager : MonoBehaviour
         Debug.Log($"Spawn cliente: {profile.clientName}");
     }
 
-
     void HandleClientReachedCounter(ClientMover mover)
     {
         Debug.Log($"Cliente llegó al puesto: {mover.profile.clientName}");
@@ -150,6 +174,7 @@ public class ClientSequenceManager : MonoBehaviour
         _currentClient = null;
         _currentClientAnimator = null;
 
+        // Aquí decidimos si hay otro cliente o si volvemos al mapa
         SpawnNextClient();
     }
 
@@ -253,12 +278,19 @@ public class ClientSequenceManager : MonoBehaviour
         dialogueController.PlayReaction(state.currentClient, reactionLine);
     }
 
-
     void HandleReactionFinished()
     {
         dialogueController.OnDialogueFinished -= HandleReactionFinished;
         _waitingReaction = false;
 
+        // 1) El cliente se lleva el cholado → limpiamos el vaso
+        var state = CholadoGameState.Instance;
+        if (state != null && state.choladoVisual != null)
+        {
+            state.choladoVisual.ClearAll();
+        }
+
+        // 2) Dejamos que el cliente se vaya
         _currentClient.AllowLeave();
     }
 

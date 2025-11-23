@@ -2,6 +2,7 @@ using UnityEngine;
 using TMPro;
 using System;
 using System.Collections;
+using System.Text.RegularExpressions;
 
 public class DialogueController : MonoBehaviour
 {
@@ -10,12 +11,19 @@ public class DialogueController : MonoBehaviour
     public TextMeshProUGUI dialogueText;
 
     [Header("Tiempos diálogo OIGA")]
-    public float firstDelay   = 0.1f;
-    public float lineDuration = 2.0f;
-    public float endDelay     = 0.5f;
+    public float firstDelay   = 0.4f;
+    public float lineDuration = 3.5f;
+    public float endDelay     = 1.0f;
 
     [Header("Tiempo reacción (Vea)")]
-    public float reactionDuration = 2.0f;
+    public float reactionDuration = 3.0f;
+
+    [Header("Colores")]
+    [Tooltip("Color base de TODO el texto del diálogo")]
+    public Color baseTextColor = Color.black;
+
+    [Tooltip("Color para resaltar las palabras clave de OIGA")]
+    public Color highlightColor = new Color(1f, 0.83f, 0.33f); // amarillito
 
     ClientProfile _currentProfile;
     Coroutine _routine;
@@ -27,7 +35,16 @@ public class DialogueController : MonoBehaviour
     void Start()
     {
         Hide();
+
+        if (dialogueText != null)
+        {
+            // Nos aseguramos de que TMP acepte <color>, <b>, etc.
+            dialogueText.richText = true;
+            dialogueText.color = baseTextColor;
+        }
     }
+
+    // ================== OIGA ==================
 
     public void PlayDialogue(ClientProfile profile)
     {
@@ -54,14 +71,25 @@ public class DialogueController : MonoBehaviour
             panelRoot.SetActive(true);
 
         if (dialogueText != null)
+        {
             dialogueText.text = "";
+            dialogueText.color = baseTextColor;   // color base configurable
+            dialogueText.richText = true;         // por si algún otro script lo cambió
+        }
 
         yield return new WaitForSeconds(firstDelay);
 
         for (int i = 0; i < _currentProfile.oigaLines.Length; i++)
         {
             if (dialogueText != null)
-                dialogueText.text = _currentProfile.oigaLines[i];
+            {
+                string rawLine = _currentProfile.oigaLines[i];
+                string highlighted = ApplyKeywordHighlight(rawLine);
+                dialogueText.text = highlighted;
+
+                // Debug opcional para ver el texto con tags
+                // Debug.Log($"[DIALOGUE] line={highlighted}");
+            }
 
             yield return new WaitForSeconds(lineDuration);
         }
@@ -73,11 +101,44 @@ public class DialogueController : MonoBehaviour
         OnDialogueFinished?.Invoke();
     }
 
+    string ApplyKeywordHighlight(string line)
+    {
+        if (_currentProfile == null ||
+            _currentProfile.oigaKeywords == null ||
+            _currentProfile.oigaKeywords.Length == 0 ||
+            string.IsNullOrEmpty(line))
+        {
+            return line;
+        }
+
+        // Convertimos el Color → "#RRGGBB"
+        string hex = ColorUtility.ToHtmlStringRGB(highlightColor);
+        string colorTag = $"#{hex}";
+
+        string result = line;
+
+        foreach (var kw in _currentProfile.oigaKeywords)
+        {
+            if (string.IsNullOrWhiteSpace(kw))
+                continue;
+
+            // Búsqueda case-insensitive; importante que coincida acentos, etc.
+            string pattern = $"(?i){Regex.Escape(kw)}";
+
+            result = Regex.Replace(result, pattern, match =>
+                $"<color={colorTag}><b>{match.Value}</b></color>");
+        }
+
+        return result;
+    }
+
     public void ReplayLast()
     {
         if (_currentProfile != null)
             PlayDialogue(_currentProfile);
     }
+
+    // ================== VEA ==================
 
     public void PlayReaction(ClientProfile profile, string line)
     {
@@ -96,7 +157,11 @@ public class DialogueController : MonoBehaviour
             panelRoot.SetActive(true);
 
         if (dialogueText != null)
+        {
+            dialogueText.color = baseTextColor;
+            dialogueText.richText = true;
             dialogueText.text = line;
+        }
 
         yield return new WaitForSeconds(reactionDuration);
 
@@ -104,6 +169,7 @@ public class DialogueController : MonoBehaviour
         OnDialogueFinished?.Invoke();
     }
 
+    // ================== Utilidades ==================
 
     public void Hide()
     {

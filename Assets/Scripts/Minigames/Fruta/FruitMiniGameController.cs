@@ -13,6 +13,14 @@ public class FruitMiniGameController : MonoBehaviour
         Alto  = 2
     }
 
+    // === NUEVO: tipos de feedback visual ===
+    public enum FeedbackType
+    {
+        Chimba,
+        Melo,
+        Paila
+    }
+
     [Header("Referencias de juego")]
     public Transform barraCorte;
     public Transform leftLimit;
@@ -25,14 +33,20 @@ public class FruitMiniGameController : MonoBehaviour
     [Header("Línea ideal de corte")]
     public Transform idealLine;
 
-    [Header("Feedback")]
+    [Header("Feedback (texto opcional)")]
     public TextMeshProUGUI feedbackText;
     public float feedbackDuration = 1.5f;
 
+    [Header("Feedback visual (sprites)")]
+    public SpriteRenderer feedbackSprite;
+    public Sprite chimbaSprite;
+    public Sprite meloSprite;
+    public Sprite pailaSprite;
+
     [Header("Resultado (debug)")]
     [Range(0f, 1f)] public float valorAccion;
-    public int nivelFinal;      
-    public int FRUTA;                
+    public int nivelFinal;
+    public int FRUTA;
     public NivelSeleccion seleccionInicial;
 
     bool _hasCut = false;
@@ -40,7 +54,7 @@ public class FruitMiniGameController : MonoBehaviour
     bool _finished = false;
 
     float _idealBaseY;
-    float _idealBaseZ;   
+    float _idealBaseZ;
 
     void Start()
     {
@@ -59,6 +73,9 @@ public class FruitMiniGameController : MonoBehaviour
 
         if (feedbackText != null)
             feedbackText.gameObject.SetActive(false);
+
+        if (feedbackSprite != null)
+            feedbackSprite.gameObject.SetActive(false);
 
         _hasCut   = false;
         _canCut   = false;
@@ -100,8 +117,8 @@ public class FruitMiniGameController : MonoBehaviour
             }
 
             Vector3 pos = Vector3.Lerp(leftLimit.position, rightLimit.position, t);
-            pos.y = _idealBaseY;   
-            pos.z = _idealBaseZ;   
+            pos.y = _idealBaseY;
+            pos.z = _idealBaseZ;
             idealLine.position = pos;
             idealLine.gameObject.SetActive(true);
         }
@@ -155,9 +172,13 @@ public class FruitMiniGameController : MonoBehaviour
             state.hasFruta    = true;
             Debug.Log($"[FRUTA] selectedFruta={state.selectedFruta}, resultFruta={state.resultFruta}, idealFruta={state.idealFruta}");
         }
+        if (state != null && state.choladoVisual != null)
+        {
+            state.choladoVisual.RefreshFromState();
+        }
 
-        string fb = GetFeedback(selected, nivelFinal);
-        ShowFeedback(fb);
+        FeedbackType fbType = GetFeedbackType(selected, nivelFinal);
+        ShowFeedback(fbType);
 
         _finished = true;
         StartCoroutine(FinishAfterDelay());
@@ -165,38 +186,71 @@ public class FruitMiniGameController : MonoBehaviour
 
     int MapValorToNivel(float v)
     {
-        if (v < 0.33f) return 0;   
-        if (v < 0.66f) return 1;   
-        return 2;                  
+        if (v < 0.33f) return 0;
+        if (v < 0.66f) return 1;
+        return 2;
     }
 
-    string GetFeedback(int selected, int result)
+    // ===== NUEVO: feedback como enum =====
+    FeedbackType GetFeedbackType(int selected, int result)
     {
         switch (selected)
         {
-            case 0: 
-                if (result == 0) return "¡Chimba!";
-                if (result == 1) return "Melo!";
-                return "Paila!";
+            case 0: // eligió BAJO
+                if (result == 0) return FeedbackType.Chimba;
+                if (result == 1) return FeedbackType.Melo;
+                return FeedbackType.Paila;
 
-            case 1: 
-                if (result == 1) return "¡Chimba!";
-                return "Melo!";
+            case 1: // eligió MEDIO
+                if (result == 1) return FeedbackType.Chimba;
+                return FeedbackType.Melo;
 
-            case 2:
-                if (result == 2) return "¡Chimba!";
-                if (result == 1) return "Melo!";
-                return "Paila!";
+            case 2: // eligió ALTO
+                if (result == 2) return FeedbackType.Chimba;
+                if (result == 1) return FeedbackType.Melo;
+                return FeedbackType.Paila;
+        }
+        return FeedbackType.Melo;
+    }
+
+    string FeedbackTypeToText(FeedbackType type)
+    {
+        switch (type)
+        {
+            case FeedbackType.Chimba: return "¡Chimba!";
+            case FeedbackType.Melo:   return "Melo!";
+            case FeedbackType.Paila:  return "Paila!";
         }
         return "Melo!";
     }
 
-    void ShowFeedback(string text)
+    void ShowFeedback(FeedbackType type)
     {
-        if (feedbackText == null) return;
+        // Texto opcional
+        if (feedbackText != null)
+        {
+            feedbackText.text = FeedbackTypeToText(type);
+            feedbackText.gameObject.SetActive(true);
+        }
 
-        feedbackText.text = text;
-        feedbackText.gameObject.SetActive(true);
+        // Sprite visual
+        if (feedbackSprite != null)
+        {
+            switch (type)
+            {
+                case FeedbackType.Chimba:
+                    feedbackSprite.sprite = chimbaSprite;
+                    break;
+                case FeedbackType.Melo:
+                    feedbackSprite.sprite = meloSprite;
+                    break;
+                case FeedbackType.Paila:
+                    feedbackSprite.sprite = pailaSprite;
+                    break;
+            }
+
+            feedbackSprite.gameObject.SetActive(true);
+        }
     }
 
     IEnumerator FinishAfterDelay()

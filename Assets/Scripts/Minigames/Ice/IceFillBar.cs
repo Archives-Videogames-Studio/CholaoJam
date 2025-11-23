@@ -3,17 +3,14 @@ using UnityEngine;
 public class IceFillBar : MonoBehaviour
 {
     [Range(0f, 1f)]
-    public float fill = 0f;   
+    public float fill = 0f;
 
-    Vector3 _fullScale;        
-    Vector3 _bottomLocalPos;   
+    Vector3 _fullScale;
 
     void Awake()
     {
+        // Escala completa (barra llena)
         _fullScale = transform.localScale;
-
-        _bottomLocalPos = transform.localPosition - new Vector3(0f, _fullScale.y * 0.5f, 0f);
-
         ApplyFill();
     }
 
@@ -21,12 +18,10 @@ public class IceFillBar : MonoBehaviour
     {
         float clamped = Mathf.Clamp01(fill);
 
+        // Escalamos solo en Y, desde el pivote (que ahora está en la base)
         Vector3 s = _fullScale;
         s.y = _fullScale.y * clamped;
         transform.localScale = s;
-
-        Vector3 newCenter = _bottomLocalPos + new Vector3(0f, s.y * 0.5f, 0f);
-        transform.localPosition = newCenter;
     }
 
     public void SetFill(float value)

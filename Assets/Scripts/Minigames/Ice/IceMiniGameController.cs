@@ -12,6 +12,14 @@ public class IceMiniGameController : MonoBehaviour
         Alto  = 2
     }
 
+    // === NUEVO: tipos de feedback visual ===
+    public enum FeedbackType
+    {
+        Chimba,
+        Melo,
+        Paila
+    }
+
     public static bool MachineInputEnabled { get; private set; } = false;
 
     [Header("Barra de Hielo")]
@@ -43,11 +51,18 @@ public class IceMiniGameController : MonoBehaviour
     [Tooltip("Duración en segundos del extra progresivo.")]
     public float extraFillDuration = 0.25f;
 
-    [Header("Feedback")]
-    [Tooltip("Texto que muestra 'Chimba! / Melo! / Paila!'")]
+    [Header("Feedback (texto opcional)")]
+    [Tooltip("Texto que muestra 'Chimba! / Melo! / Paila!' (puedes dejarlo vacío si solo usas sprites).")]
     public TextMeshProUGUI feedbackText;
     [Tooltip("Tiempo que se muestra el feedback antes de volver a CristoRey.")]
     public float feedbackDuration = 1.5f;
+
+    [Header("Feedback visual (sprites)")]
+    [Tooltip("SpriteRenderer donde se pintará CHIMBA / MELO / PAILA.")]
+    public SpriteRenderer feedbackSprite;
+    public Sprite chimbaSprite;
+    public Sprite meloSprite;
+    public Sprite pailaSprite;
 
     [Header("Referencias máquina (rueda + partículas)")]
     public Guiro guiro;
@@ -78,6 +93,9 @@ public class IceMiniGameController : MonoBehaviour
 
         if (feedbackText != null)
             feedbackText.gameObject.SetActive(false);
+
+        if (feedbackSprite != null)
+            feedbackSprite.gameObject.SetActive(false);
 
         canPlay        = false;
         currentLevel   = NivelSeleccion.Medio;
@@ -225,32 +243,42 @@ public class IceMiniGameController : MonoBehaviour
     {
         float v = Mathf.Clamp01(fill);
 
-        if (v < 0.33f) return 0;      
-        else if (v < 0.66f) return 1; 
-        else return 2;                
+        if (v < 0.33f) return 0;
+        else if (v < 0.66f) return 1;
+        else return 2;
     }
 
-    string GetFeedback(int selected, int result)
+    // ===== NUEVO: feedback como enum =====
+    FeedbackType GetFeedbackType(int selected, int result)
     {
-
         switch (selected)
         {
-            case 0:
-                if (result == 0) return "¡Chimba!";
-                if (result == 1) return "Melo!";
-                return "Paila!";
+            case 0: // eligió BAJO
+                if (result == 0) return FeedbackType.Chimba;
+                if (result == 1) return FeedbackType.Melo;
+                return FeedbackType.Paila;
 
-            case 1: 
-                if (result == 1) return "¡Chimba!";
-                return "Melo!";
+            case 1: // eligió MEDIO
+                if (result == 1) return FeedbackType.Chimba;
+                return FeedbackType.Melo;
 
-            case 2: 
-                if (result == 2) return "¡Chimba!";
-                if (result == 1) return "Melo!";
-                return "Paila!";
+            case 2: // eligió ALTO
+                if (result == 2) return FeedbackType.Chimba;
+                if (result == 1) return FeedbackType.Melo;
+                return FeedbackType.Paila;
         }
+        return FeedbackType.Melo;
+    }
 
-        return "Melo!"; 
+    string FeedbackTypeToText(FeedbackType type)
+    {
+        switch (type)
+        {
+            case FeedbackType.Chimba: return "¡Chimba!";
+            case FeedbackType.Melo:   return "Melo!";
+            case FeedbackType.Paila:  return "Paila!";
+        }
+        return "Melo!";
     }
 
     void CompleteMinigame()
@@ -269,19 +297,44 @@ public class IceMiniGameController : MonoBehaviour
             Debug.Log($"[HIELO] selectedFrio={state.selectedFrio}, " +
                       $"resultFrio={state.resultFrio}, idealFrio={state.idealFrio}");
         }
+        if (state != null && state.choladoVisual != null)
+        {
+            state.choladoVisual.RefreshFromState();
+        }
 
-        string fb = GetFeedback(selected, levelFromFill);
-        ShowFeedback(fb);
+        FeedbackType fbType = GetFeedbackType(selected, levelFromFill);
+        ShowFeedback(fbType);
 
         StartCoroutine(FinishAfterDelay());
     }
 
-    void ShowFeedback(string text)
+    void ShowFeedback(FeedbackType type)
     {
-        if (feedbackText == null) return;
+        // Texto opcional
+        if (feedbackText != null)
+        {
+            feedbackText.text = FeedbackTypeToText(type);
+            feedbackText.gameObject.SetActive(true);
+        }
 
-        feedbackText.text = text;
-        feedbackText.gameObject.SetActive(true);
+        // Sprite visual
+        if (feedbackSprite != null)
+        {
+            switch (type)
+            {
+                case FeedbackType.Chimba:
+                    feedbackSprite.sprite = chimbaSprite;
+                    break;
+                case FeedbackType.Melo:
+                    feedbackSprite.sprite = meloSprite;
+                    break;
+                case FeedbackType.Paila:
+                    feedbackSprite.sprite = pailaSprite;
+                    break;
+            }
+
+            feedbackSprite.gameObject.SetActive(true);
+        }
     }
 
     System.Collections.IEnumerator FinishAfterDelay()
@@ -306,6 +359,4 @@ public class IceMiniGameController : MonoBehaviour
         else
             midAction();
     }
-
-
 }

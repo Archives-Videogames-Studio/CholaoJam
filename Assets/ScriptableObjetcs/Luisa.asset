@@ -23,6 +23,15 @@ MonoBehaviour:
   - No quiero que sea muy dulce, prefiero algo balanceado que no me deje pesada.
   - "Si tiene combinaciones de fruta fresca y colores ch\xE9veres, mejor, eso siempre
     me inspira."
+  oigaKeywords:
+  - despeje
+  - congelarme
+  - dulce
+  - balanceado
+  - pesada
+  - fruta
+  - colores
+  - inspira
   idealFrio: 1
   idealDulzor: 1
   idealFruta: 2

@@ -1,8 +1,8 @@
-using System;                    
-using System.Collections;        
-using UnityEngine;               
+using System;
+using System.Collections;
+using UnityEngine;
 using UnityEngine.SceneManagement;
-using TMPro;                     
+using TMPro;
 
 public class MinigamesScene : MonoBehaviour
 {
@@ -14,16 +14,27 @@ public class MinigamesScene : MonoBehaviour
     }
 
     [Header("Selección de máquina")]
-    public ChangeMachineButton machines;
-    public string[] scenes;               
-    public MachineKind[] machineKinds;    
+    public ChangeMachineButton machines;   // MachinesManager con ChangeMachineButton
+    public string[] scenes;                // Nombres de las escenas de minijuegos
+    public MachineKind[] machineKinds;     // Tipo de cada máquina en el mismo orden
 
-    [Header("Avisos")]
-    public TextMeshProUGUI warningText;
+    [Header("Avisos UI")]
+    public GameObject warningPanel;        // Panel (Image) del feedback
+    public TextMeshProUGUI warningText;    // Texto dentro del panel
     public float warningDuration = 1.8f;
 
     Coroutine _warningRoutine;
 
+    void Start()
+    {
+        // Asegurarte que arranque oculto
+        if (warningPanel != null)
+            warningPanel.SetActive(false);
+        if (warningText != null)
+            warningText.gameObject.SetActive(false);
+    }
+
+    // Este es el método que llama tu ÚNICO botón de "jugar minijuego"
     public void SceneLoad()
     {
         if (machines == null || scenes == null || scenes.Length == 0)
@@ -35,12 +46,25 @@ public class MinigamesScene : MonoBehaviour
 
         string sceneName = scenes[idx];
 
+        // Tipo de máquina actual (por defecto Hielo)
         MachineKind kind = MachineKind.Hielo;
         if (machineKinds != null && idx < machineKinds.Length)
             kind = machineKinds[idx];
 
         var state = CholadoGameState.Instance;
 
+        // ============================
+        //   1) PRIMERO SIEMPRE HIELO
+        // ============================
+        if (state != null && !state.hasFrio && kind != MachineKind.Hielo)
+        {
+            ShowWarning("Primero necesitas echarle HIELO al cholao.");
+            return;
+        }
+
+        // ====================================
+        //   2) NO REPETIR MISMO INGREDIENTE
+        // ====================================
         if (state != null)
         {
             if (kind == MachineKind.Hielo && state.hasFrio)
@@ -60,6 +84,7 @@ public class MinigamesScene : MonoBehaviour
             }
         }
 
+        // Si pasa todas las validaciones, SÍ carga el minijuego
         Action midAction = () =>
         {
             SceneManager.LoadScene(sceneName, LoadSceneMode.Additive);
@@ -76,11 +101,14 @@ public class MinigamesScene : MonoBehaviour
             midAction();
     }
 
+    // ======================
+    //   AVISOS EN PANTALLA
+    // ======================
     void ShowWarning(string msg)
     {
         Debug.Log("[MINIGAME] " + msg);
 
-        if (warningText == null)
+        if (warningText == null && warningPanel == null)
             return;
 
         if (_warningRoutine != null)
@@ -91,11 +119,20 @@ public class MinigamesScene : MonoBehaviour
 
     IEnumerator WarningRoutine(string msg)
     {
-        warningText.text = msg;
-        warningText.gameObject.SetActive(true);
+        if (warningPanel != null)
+            warningPanel.SetActive(true);
+
+        if (warningText != null)
+        {
+            warningText.text = msg;
+            warningText.gameObject.SetActive(true);
+        }
 
         yield return new WaitForSeconds(warningDuration);
 
-        warningText.gameObject.SetActive(false);
+        if (warningText != null)
+            warningText.gameObject.SetActive(false);
+        if (warningPanel != null)
+            warningPanel.SetActive(false);
     }
 }

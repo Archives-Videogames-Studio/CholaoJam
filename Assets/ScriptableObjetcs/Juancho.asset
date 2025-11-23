@@ -23,6 +23,14 @@ MonoBehaviour:
   - "Hoy s\xED quiero az\xFAcar del alma, h\xE1game un cholado bien dulce pa\u2019
     seguir celebrando."
   - "La fruta d\xE9jela suave, yo lo que quiero es sirope del que pega duro."
+  oigaKeywords:
+  - garganta
+  - hielo
+  - "az\xFAcar"
+  - dulce
+  - fruta
+  - suave
+  - sirope
   idealFrio: 0
   idealDulzor: 2
   idealFruta: 0
