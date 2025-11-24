@@ -1,5 +1,5 @@
 using UnityEngine;
-using UnityEngine.SceneManagement;   // <-- IMPORTANTE
+using UnityEngine.SceneManagement;
 
 public class ClientSequenceManager : MonoBehaviour
 {
@@ -23,7 +23,7 @@ public class ClientSequenceManager : MonoBehaviour
     [SerializeField] private ChangeMachineButton machinesManager;
 
     [Header("Escena a la que volvemos cuando no hay más clientes")]
-    public string mapSceneName = "Mapa";   // <-- pon aquí el nombre REAL de tu escena de mapa
+    public string mapSceneName = "Mapa";
 
     int _currentIndex = -1;
     ClientMover _currentClient;
@@ -33,10 +33,22 @@ public class ClientSequenceManager : MonoBehaviour
     public ClientMoodAnimator CurrentMoodAnimator => _currentClientAnimator;
 
     bool _waitingReaction = false;
+    bool _sequenceStarted = false;   // <-- NUEVO
 
     void Start()
     {
+        // Solo aseguramos UI, pero NO empezamos la secuencia aquí
         if (buttonsRoot != null) buttonsRoot.SetActive(false);
+    }
+
+    /// <summary>
+    /// Llamar una sola vez para arrancar la secuencia de clientes.
+    /// </summary>
+    public void BeginSequence()
+    {
+        if (_sequenceStarted) return;
+
+        _sequenceStarted = true;
         SpawnNextClient();
     }
 
@@ -121,7 +133,7 @@ public class ClientSequenceManager : MonoBehaviour
         if (_currentClientAnimator != null)
         {
             _currentClientAnimator.SetNeutral();
-            _currentClientAnimator.DisableAnimation();   // <- aquí lo apagamos
+            _currentClientAnimator.DisableAnimation();
         }
         else
         {
@@ -162,7 +174,6 @@ public class ClientSequenceManager : MonoBehaviour
         if (oigaButton != null) oigaButton.SetActive(true);
         UpdateVeaButton();
 
-        // Después de hablar, seguimos mostrando solo el portrait (neutro)
         _currentClientAnimator?.SetNeutral();
     }
 
@@ -174,7 +185,7 @@ public class ClientSequenceManager : MonoBehaviour
         _currentClient = null;
         _currentClientAnimator = null;
 
-        // Aquí decidimos si hay otro cliente o si volvemos al mapa
+        // Siguiente cliente o volver al mapa
         SpawnNextClient();
     }
 
@@ -191,9 +202,6 @@ public class ClientSequenceManager : MonoBehaviour
 
         if (machinesManager != null)
         {
-            // Esto hará:
-            // - EnableAnimation() en ClientMoodAnimator
-            // - Calcular ideal y poner estrellas / neutro
             machinesManager.SetMireActive(true);
         }
     }
@@ -228,18 +236,17 @@ public class ClientSequenceManager : MonoBehaviour
 
         Debug.Log($"[VEA] Satisfacción={level}, reacción='{reactionLine}'");
 
-        // 2) APAGAR animaciones de MIRE (modo idle animado)
+        // 2) Apagar animaciones de MIRE
         if (machinesManager != null)
         {
-            machinesManager.SetMireActive(false);   // Esto internamente llama DisableAnimation()
+            machinesManager.SetMireActive(false);
         }
         else if (_currentClientAnimator != null)
         {
-            // Por si acaso, apagar directo si no hay machinesManager
             _currentClientAnimator.DisableAnimation();
         }
 
-        // 3) Mostrar sprite estático de reacción según el nivel
+        // 3) Sprite estático de reacción
         var profile = state.currentClient;
         SpriteRenderer sr = _currentClient.GetComponentInChildren<SpriteRenderer>();
 
@@ -264,7 +271,7 @@ public class ClientSequenceManager : MonoBehaviour
             }
         }
 
-        // 4) Diálogo de reacción como ya lo tenías
+        // 4) Diálogo de reacción
         if (string.IsNullOrEmpty(reactionLine))
         {
             dialogueController.Hide();
@@ -283,7 +290,7 @@ public class ClientSequenceManager : MonoBehaviour
         dialogueController.OnDialogueFinished -= HandleReactionFinished;
         _waitingReaction = false;
 
-        // 1) El cliente se lleva el cholado → limpiamos el vaso
+        // 1) El cliente se lleva el cholado
         var state = CholadoGameState.Instance;
         if (state != null && state.choladoVisual != null)
         {
