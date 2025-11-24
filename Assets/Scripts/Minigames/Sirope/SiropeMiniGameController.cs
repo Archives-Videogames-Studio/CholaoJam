@@ -12,7 +12,7 @@ public class SiropeMiniGameController : MonoBehaviour
         Alto  = 2
     }
 
-    // === NUEVO: tipos de feedback visual ===
+    // === Tipos de feedback visual ===
     public enum FeedbackType
     {
         Chimba,
@@ -81,17 +81,9 @@ public class SiropeMiniGameController : MonoBehaviour
 
     void Start()
     {
-        if (selectionPanel != null)
-        {
-            selectionPanel.SetActive(true);
-            Debug.Log("[SIROPE] Start() -> SelectionPanel asignado y activado. " +
-                      $"activeSelf={selectionPanel.activeSelf}, activeInHierarchy={selectionPanel.activeInHierarchy}");
-        }
-        else
-        {
-            Debug.LogWarning("[SIROPE] Start() -> SelectionPanel NO asignado en el inspector.");
-        }
-
+        // 🔹 YA NO tocamos el selectionPanel aquí.
+        //     Lo controla MinigameInstructionsController
+        //     (lo deja oculto hasta que cierras el portapapeles).
         canPlay    = false;
         hasStarted = false;
         finished   = false;
@@ -158,12 +150,12 @@ public class SiropeMiniGameController : MonoBehaviour
 
                     Debug.Log($"[SIROPE] selectedDulzor={state.selectedDulzor}, " +
                               $"resultDulzor={state.resultDulzor}, idealDulzor={state.idealDulzor}");
-                }
-                if (state != null && state.choladoVisual != null)
-                {
-                    state.choladoVisual.RefreshFromState();
-                }
 
+                    if (state.choladoVisual != null)
+                    {
+                        state.choladoVisual.RefreshFromState();
+                    }
+                }
 
                 if (syrupParticles != null)
                 {
@@ -172,7 +164,7 @@ public class SiropeMiniGameController : MonoBehaviour
 
                 int selected = (state != null) ? state.selectedDulzor : (int)currentLevel;
 
-                // NUEVO: Calculamos tipo de feedback (Chimba / Melo / Paila)
+                // Calculamos tipo de feedback (Chimba / Melo / Paila)
                 FeedbackType fbType = GetFeedbackType(selected, DULZOR);
                 ShowFeedback(fbType);
 
@@ -189,6 +181,8 @@ public class SiropeMiniGameController : MonoBehaviour
     {
         currentLevel = nivel;
 
+        // 🔹 AHORA SÍ: cuando el jugador elige nivel,
+        //      escondemos el panel de selección:
         if (selectionPanel != null)
             selectionPanel.SetActive(false);
 
@@ -254,7 +248,7 @@ public class SiropeMiniGameController : MonoBehaviour
         else                return 2;
     }
 
-    // ========= NUEVO: LÓGICA DE FEEDBACK COMO ENUM =========
+    // ========= LÓGICA DE FEEDBACK COMO ENUM =========
     FeedbackType GetFeedbackType(int selected, int result)
     {
         switch (selected)
@@ -289,7 +283,7 @@ public class SiropeMiniGameController : MonoBehaviour
 
     void ShowFeedback(FeedbackType type)
     {
-        // Texto (opcional, por si quieres mostrar además del sprite)
+        // Texto (opcional)
         if (feedbackText != null)
         {
             feedbackText.text = FeedbackTypeToText(type);

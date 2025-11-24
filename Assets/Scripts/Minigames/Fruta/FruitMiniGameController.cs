@@ -58,8 +58,8 @@ public class FruitMiniGameController : MonoBehaviour
 
     void Start()
     {
-        if (selectionPanel != null)
-            selectionPanel.SetActive(true);
+        // if (selectionPanel != null)
+        //     selectionPanel.SetActive(true);
 
         if (barMover != null)
             barMover.enabled = false;

@@ -85,8 +85,8 @@ public class IceMiniGameController : MonoBehaviour
     {
         SetMachineInput(false);
 
-        if (selectionPanel != null)
-            selectionPanel.SetActive(true);
+        // if (selectionPanel != null)
+        //     selectionPanel.SetActive(true);
 
         if (fillBar != null)
             fillBar.SetFill(0f);
