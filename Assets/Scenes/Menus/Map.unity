@@ -2205,7 +2205,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1691066568
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2245,7 +2245,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Destino bloqueado.
+  m_text: "\xA1PR\xD3XIMAMENTE!"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 95dab73fcbe2b4a3891568850cd1e7c0, type: 2}
   m_sharedMaterial: {fileID: 3911025445602560808, guid: 95dab73fcbe2b4a3891568850cd1e7c0, type: 2}
@@ -2310,7 +2310,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 0, y: 0, z: -39.641785, w: -105.860214}
+  m_margin: {x: -8.363449, y: 0, z: -39.641785, w: -105.860214}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
